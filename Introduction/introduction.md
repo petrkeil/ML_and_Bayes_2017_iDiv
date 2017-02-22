@@ -44,36 +44,36 @@ Data
 ========================================================
 
 ```
-             x          y
-1  -3.36036438 -8.2255986
-2  -1.67415781 -3.4254527
-3  -1.28843583 -1.6274842
-4  -1.12398265 -1.6607849
-5  -0.79909384 -0.3644841
-6  -0.66600733  0.3086723
-7  -0.59372833  0.1873957
-8  -0.59034664  0.8194618
-9  -0.58946921  0.8746883
-10 -0.11633386  0.9574701
-11 -0.05839936  1.5326324
-12 -0.04541250  1.4010884
-13  0.01851941  1.7617596
-14  0.17032248  2.7476527
-15  0.47701840  3.4969438
-16  0.91837569  3.3880732
-17  1.12012158  5.7335285
-18  1.15159940  5.5316939
-19  1.29460706  6.3070198
-20  1.42823681  5.5571250
+             x           y
+1  -1.52304837 -2.81429336
+2  -1.42440290 -1.58547185
+3  -1.37469652 -1.68734171
+4  -1.31422445 -1.78766755
+5  -1.28773158 -2.65935810
+6  -1.07090507 -0.01386621
+7  -0.84352620 -0.31224613
+8  -0.69390819  1.28746096
+9  -0.42314535 -0.51527966
+10 -0.06358984  1.74832816
+11  0.15274243  3.55826220
+12  0.18780042  1.74025496
+13  0.28711638  3.97643448
+14  0.30653888  2.40384641
+15  0.35451255  3.83180851
+16  0.70565670  4.57781049
+17  0.86796405  4.86931115
+18  1.05492459  4.47386135
+19  1.07799967  5.48382812
+20  2.06541310  8.03632115
 ```
 
 Data
 ========================================================
-![plot of chunk unnamed-chunk-2](introduction-figure/unnamed-chunk-2-1.png) 
+![plot of chunk unnamed-chunk-2](introduction-figure/unnamed-chunk-2-1.png)
 
 Data, model, parameters
 ========================================================
-![plot of chunk unnamed-chunk-3](introduction-figure/unnamed-chunk-3-1.png) 
+![plot of chunk unnamed-chunk-3](introduction-figure/unnamed-chunk-3-1.png)
 
 $y_i \sim Normal(\mu_i, \sigma)$
 
@@ -83,11 +83,11 @@ Can you separate the **deterministic** and the **stochastic** part?
 
 Data
 ========================================================
-![plot of chunk unnamed-chunk-4](introduction-figure/unnamed-chunk-4-1.png) 
+![plot of chunk unnamed-chunk-4](introduction-figure/unnamed-chunk-4-1.png)
 
 Data, model, parameters
 ========================================================
-![plot of chunk unnamed-chunk-5](introduction-figure/unnamed-chunk-5-1.png) 
+![plot of chunk unnamed-chunk-5](introduction-figure/unnamed-chunk-5-1.png)
 
 Can you separate the **deterministic** and the **stochastic** part?
 
