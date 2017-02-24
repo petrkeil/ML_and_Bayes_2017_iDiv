@@ -5,12 +5,21 @@ date: "February 24, 2017"
 output: html_document
 ---
 
+![](https://raw.githubusercontent.com/petrkeil/ML_and_Bayes_2017_iDiv/master/FIgures/normal_linear_regression.png)
+
+The figure is from Kruschke (2014) Doing Bayesian Data Analysis, 2nd edition, Academic Press / Elsevier.
 
 
-```{r, eval=FALSE}
+```{r}
 xy <- read.csv("https://raw.githubusercontent.com/petrkeil/ML_and_Bayes_2017_iDiv/master/Manual_ML_regression/xy_data.csv")
 
 xy
+```
+
+
+# Fitting linear regression manually
+
+```{r, eval=FALSE}
 
 library(manipulate)
 
@@ -24,19 +33,57 @@ myplot <- function(xy, a, b, sigma)
   neg.LL <- - sum(dnorm(xy$y, mean=mean.y, sd=sigma, log=TRUE))
   neg.LL <- round(neg.LL, 3)
   
-  plot(xy, main=paste("Neg. LL (a.k.a. deviance) =", neg.LL))
+  plot(xy, main=paste("Neg. LL =", neg.LL))
   
   lines(x, mean.y, col="red")
   lines(x, low.y, lty=2, col="red")
   lines(x, up.y, lty=2, col="red")
 }
+```
 
+```{r, eval=FALSE}
 manipulate(
 myplot(xy, a, b, sigma),
 a = slider(min=-5, max=5, step=0.01, initial=3),
 b = slider(min=-5, max=5, step=0.01, initial=4),
 sigma = slider(min=0, max=3, step=0.01, initial=0.1)
 )
+```
 
+# Linear regression fitted with ML and `optim`
+
+```{r}
+neg.LL.function.for.optim <- function(par, dat)
+{
+  x <- dat$x
+  y <- dat$y
+  a <- par[1]
+  b <- par[2]
+  sd <- par[3]
+  LL <- dnorm(y, mean=a + b*x, sd=sd, log=TRUE)
+  neg.LL <- - sum(LL)
+  return(neg.LL)
+}
+
+
+optim(par=c(a=0, b=0, sd=1), 
+      fn=neg.LL.function.for.optim, 
+      dat=xy)
 
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
