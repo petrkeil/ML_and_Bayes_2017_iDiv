@@ -22,6 +22,7 @@ Optional functions for interactive plotting:
 library(manipulate)
 
 source("https://raw.githubusercontent.com/petrkeil/ML_and_Bayes_2017_iDiv/master/Univariate%20Poisson%20Model/plotting_poisson.r")
+
 ```
 
 # Poisson distribution

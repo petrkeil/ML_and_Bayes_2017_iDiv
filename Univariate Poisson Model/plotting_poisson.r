@@ -1,4 +1,6 @@
 
+require(manipulate)
+
 move.poisson <- function(lambda)
 {
   p.mass <- dpois(0:100, lambda=lambda)
@@ -8,6 +10,7 @@ move.poisson <- function(lambda)
        xlab="x")
 }
 
+# ------------------------------------------------------------------------------
 
 plot.poisson.deviance <- function(x, lambda)
 {
