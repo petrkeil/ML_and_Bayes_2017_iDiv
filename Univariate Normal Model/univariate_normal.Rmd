@@ -13,6 +13,18 @@ output:
 The purpose of this lesson is to explain the concept of **probability density** 
 and **likelihood**, using a simple example of **Normal** probability density function.
 
+***
+
+Some optional code and libraries for interactive graphics:
+
+```{r}
+library(manipulate)
+
+source("https://raw.githubusercontent.com/petrkeil/ML_and_Bayes_2017_iDiv/master/Univariate%20Normal%20Model/plotting_functions.r")
+```
+
+***
+
 # The data
 
 We will use data on **housefly wing length [mm]**, which you can find [here](http://www.seattlecentral.edu/qelp/sets/057/057.html). 
@@ -36,6 +48,8 @@ hist(wings, freq=FALSE, col="grey", main="Density histogram")
 points(wings, jitter(rep(0, times=100), factor=0.7))
 ```
 
+***
+
 # The Normal model
 
 This is our formal model definition:
@@ -49,6 +63,8 @@ For $\mu = 0$ and $\sigma = 1$ the model looks like this:
   curve(dnorm, from=-4, to=4, ylab="p(x)")
 ```
 
+***
+
 **Remember:**
 
 * Probability density is different from probability.
@@ -59,7 +75,9 @@ For $\mu = 0$ and $\sigma = 1$ the model looks like this:
 
 * Probability density function must integrate to 1.
 
-* *Probability distribution* is a very ambiguous and confusing term.
+* *Probability distribution* is an ambiguous term.
+
+***
 
 # Fitting the model to the wing data
 
@@ -81,7 +99,7 @@ For $\mu = 0$ and $\sigma = 1$ the model looks like this:
     points(wings, jitter(rep(0, 100), factor=0.2))
 ```
 
-We can make this interactive using `manipulate`
+We can make this interactive using `manipulate`:
 
 ```{r, eval=FALSE}
 manipulate(curve.data(mean, sd), 
@@ -89,6 +107,7 @@ manipulate(curve.data(mean, sd),
            sd=slider(0.1,3, step=0.01, initial=1) )
 ```
 
+***
 
 ## Likelihood - single data point
 
@@ -130,15 +149,16 @@ Let's plot it:
   segments(x0=-1, y0=L, x1=wings.i, y1=L, col="red")
 ```
 
+You can try some interactive graphics:
 
 ```{r, eval=FALSE}
-
-      
 manipulate(curve.data.l.point(mean, sd, point),
            point = slider(1, length(wings)),
            mean=slider(2, 7, step=0.01), 
            sd=slider(0.1,3, step=0.01, initial=1) )
 ```
+
+***
 
 # Likelihood - whole dataset
 
@@ -179,15 +199,19 @@ We can encapsulate it into a single function:
     deviance <- - sum(LL)
     return(deviance)
   }
+```
 
-  # it's a function of model parameters, so try to play
-  # around with different paramter values
+It's a function of model parameters, so try to play around with different paramter values:
+
+```{r}
   deviance.function(wings, mean=0, sd=1)
 ```
 
 Deviance (negative log-likelihood) can be then minimized (likelihood is maximized) in order to find the most likely model parameters - these are the **Maximum Likelihood Estimators (MLE)** of model parameters.
 
 # Exercise
+
+***
 
 **Find and plot the MLE of the Normal model and the 'wings' data.** 
 Use the following functions and scripts:
@@ -197,7 +221,7 @@ Use the following functions and scripts:
  curve()
 ```
 
-Interactive graphics:
+You can try some interactive graphics:
 
 ```{r, eval=FALSE}
 manipulate(curve.data.deviance(mean, sd),
@@ -205,6 +229,8 @@ manipulate(curve.data.deviance(mean, sd),
            sd=slider(0.1,3, step=0.01, initial=1) )
 
 ```
+
+***
 
 # Using ```optim()``` to find MLE
 
@@ -228,11 +254,20 @@ optim(par=c(mean=0,var=1),
       dat=wings)
 ```
 
-
+***
 
 # For further exploration
 
-There are other functions derived from probability density functions. I have [a 
-tutorial post](http://www.petrkeil.com/?p=2084) on that.
+There are other functions derived from probability density function (PDF) `dnorm`:
 
-Type `?pnorm`, `?qnorm` or `?rnorm` and check it out:
+- Cumulative distribution function (CDF) `pnorm`
+
+- Quantile function `qnorm`
+
+- Random number generator`rnorm`
+
+Type `?pnorm`, `?qnorm` or `?rnorm` and check it out.
+
+I have [a tutorial post](http://www.petrkeil.com/?p=2084) on that.
+
+

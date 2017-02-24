@@ -103,7 +103,14 @@ plot(lambdas, deviances, ylab="Deviance (Negative Log Likelihood)")
 abline(v=MLE)
 ```
 
+# Interactive visualization
 
+```{r, eval=FALSE}
+source("")
+
+
+
+```
 
 
 
