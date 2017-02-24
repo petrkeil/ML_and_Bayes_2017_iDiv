@@ -12,9 +12,9 @@ move.poisson <- function(lambda)
 
 # ------------------------------------------------------------------------------
 
-plot.poisson.deviance <- function(x, lambda)
+plot.poisson.ll <- function(x, lambda)
 {
-  deviance <- round(deviance.function(x, lambda),2)
-  hist(x, main=paste("Deviance =", deviance), freq = FALSE, ylim=c(0,0.3), col="grey")
+  neg.ll <- round(negLL.function(x, lambda),2)
+  hist(x, main=paste("Neg. LL =", neg.ll), freq = FALSE, ylim=c(0,0.3), col="grey")
   points(0:20, dpois(0:20, lambda), pch=19, col="red")
 }

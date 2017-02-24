@@ -78,47 +78,47 @@ x <- rpois(n=100, lambda=8)
 x
 ```
 
-Poisson distribution is didactically convenient as it only has the one parameter $\lambda$. We can write the *deviance* (negative log-likelihood) function for a given dataset $x$:
+Poisson distribution is didactically convenient as it only has the one parameter $\lambda$. We can write the *negative log-likelihood* function for a given dataset $x$:
 ```{r, tidy=FALSE}
-  deviance.function <- function(x, lambda)
+  negLL.function <- function(x, lambda)
   {
     LL <- dpois(x, lambda, log=TRUE) # the log likelihood
-    deviance <- -sum(LL)
-    return(deviance)
+    negLL <- -sum(LL)
+    return(negLL)
   }
 ```
 
 We can try different values of $\lambda$:
 ```{r}
-  deviance.function(x, lambda=10)
+  negLL.function(x, lambda=10)
 ```
 
-And we can evaluate the ```deviance.function``` for values of $\lambda$ between 0 and 35:
+And we can evaluate the ```negLL.function``` for values of $\lambda$ between 0 and 35:
 ```{r, tidy=FALSE}
-  lambdas <- 0:35
-  deviances <- numeric(36) # empty numeric vector
+  lambdas <- seq(0, 30, b)
+  negLL.vector <- numeric(36) # empty numeric vector
   
   for(i in 1:36)
   {
-    deviances[i] <- deviance.function(x, lambdas[i])  
+    negLL.vector[i] <- negLL.function(x, lambdas[i])  
   }
 ```
 
 Let's check what we have:
 ```{r}
-  deviances
+  negLL.vector
 ```
 
 Our **maximum likelihood exstimate (MLE) of $\lambda$** is:
 ```{r}
-MLE <- lambdas[which.min(deviances)] 
+MLE <- lambdas[which.min(negLL.vector)] 
 MLE
 ```
 
-And this is the plot of the deviance function, together with the 
+And this is the plot of the negative log-likelihood function, together with the 
 MLE (vertical line):
 ```{r}
-plot(lambdas, deviances, ylab="Deviance (Negative Log Likelihood)")
+plot(lambdas, negLL.vector, ylab="Negative Log Likelihood")
 abline(v=MLE)
 ```
 
@@ -127,10 +127,21 @@ abline(v=MLE)
 Interactive visualization:
 
 ```{r, eval=FALSE}
-manipulate(plot.poisson.deviance(x, lambda),
+manipulate(plot.poisson.ll(x, lambda),
            lambda = slider(1, 20, step = 0.01))
 ```
 
+# Link between log likelihood and AIC
 
+Simply:
+
+$$AIC = -2L + 2k$$
+
+where $L$ is the best log likelihood of the entire dataset, and $k$ is number of parameters. So for our best estimate ($\lambda = 8$), AIC will be:
+
+```{r}
+  AIC = 2*negLL.function(x, lambda=8) + 2*1
+  AIC
+```
 
 
