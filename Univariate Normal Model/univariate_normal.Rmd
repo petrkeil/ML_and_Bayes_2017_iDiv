@@ -30,9 +30,9 @@ Let's examine the data:
 ```{r, fig.width=8, fig.height=4.5}
 wings
 par(mfrow=c(1,2))
-hist(wings, freq=TRUE, col="grey")
+hist(wings, freq=TRUE, col="grey", main="Frequency histogram")
 points(wings, jitter(rep(0, times=100), factor=10))
-hist(wings, freq=FALSE, col="grey")
+hist(wings, freq=FALSE, col="grey", main="Density histogram")
 points(wings, jitter(rep(0, times=100), factor=0.7))
 ```
 
@@ -67,18 +67,26 @@ For $\mu = 0$ and $\sigma = 1$ the model looks like this:
 
 ```{r, fig.width=12, fig.height=4, echo=FALSE}
   par(mfrow=c(1,4))
-  curve(dnorm(x, mean=1, sd=1), from=0, to=7, ylab="p(x)", ylim=c(0, 0.6),
+  curve(dnorm(x, mean=1, sd=1), from=2, to=6, ylab="p(x)", ylim=c(0, 0.6),
         main="mean=1, sd=1")
-    points(wings, jitter(rep(0, 100), factor=0.1))
-  curve(dnorm(x, mean=4, sd=2), from=0, to=7, ylab="p(x)", ylim=c(0, 0.6),
+    points(wings, jitter(rep(0, 100), factor=0.2))
+  curve(dnorm(x, mean=4, sd=2), from=2, to=6, ylab="p(x)", ylim=c(0, 0.6),
         main="mean=4, sd=2")
-    points(wings, jitter(rep(0, 100), factor=0.1))
-  curve(dnorm(x, mean=2, sd=3), from=0, to=7, ylab="p(x)", ylim=c(0, 0.6),
+    points(wings, jitter(rep(0, 100), factor=0.2))
+  curve(dnorm(x, mean=2, sd=3), from=2, to=6, ylab="p(x)", ylim=c(0, 0.6),
         main="mean=2, sd=3")
-    points(wings, jitter(rep(0, 100), factor=0.1))
-  curve(dnorm(x, mean=4.5, sd=0.7), from=0, to=7, ylab="p(x)", ylim=c(0, 0.6),
+    points(wings, jitter(rep(0, 100), factor=0.2))
+  curve(dnorm(x, mean=4.5, sd=0.7), from=2, to=6, ylab="p(x)", ylim=c(0, 0.6),
         main="mean=4.5, sd=0.7")
-    points(wings, jitter(rep(0, 100), factor=0.1))
+    points(wings, jitter(rep(0, 100), factor=0.2))
+```
+
+We can make this interactive using `manipulate`
+
+```{r, eval=FALSE}
+manipulate(curve.data(mean, sd), 
+           mean=slider(2, 7, step=0.01), 
+           sd=slider(0.1,3, step=0.01, initial=1) )
 ```
 
 
@@ -111,13 +119,25 @@ L
 ```
 
 Let's plot it:
-```{r}
+
+```{r, echo=FALSE}
   curve(dnorm(x, my.mean, my.sd), from=0, to=7, 
-        ylab="p(wings | mu, sigma)", xlab="wings",
+        ylab="p(wings.i | mu, sigma)", xlab="wings",
         main=paste("p(wings.i | mu, sigma) = ", round(L, 4)))
   points(wings.i, 0)
-  abline(v=wings.i, col="red")
-  abline(h=L, col="red")
+  
+  segments(x0=wings.i, y0=0, x1=wings.i, y1=L, col="red")
+  segments(x0=-1, y0=L, x1=wings.i, y1=L, col="red")
+```
+
+
+```{r, eval=FALSE}
+
+      
+manipulate(curve.data.l.point(mean, sd, point),
+           point = slider(1, length(wings)),
+           mean=slider(2, 7, step=0.01), 
+           sd=slider(0.1,3, step=0.01, initial=1) )
 ```
 
 # Likelihood - whole dataset
@@ -175,6 +195,15 @@ Use the following functions and scripts:
  deviance.function()
  hist()
  curve()
+```
+
+Interactive graphics:
+
+```{r, eval=FALSE}
+manipulate(curve.data.deviance(mean, sd),
+           mean=slider(2, 7, step=0.01), 
+           sd=slider(0.1,3, step=0.01, initial=1) )
+
 ```
 
 # Using ```optim()``` to find MLE
