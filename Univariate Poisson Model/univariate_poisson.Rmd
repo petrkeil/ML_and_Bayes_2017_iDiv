@@ -14,6 +14,16 @@ This brief lesson introduces the concept of **discrete distribution**
 (**probability mass function**) on the example of Poisson distribution. We will
 also do more likelihood stuff.
 
+***
+
+Optional functions for interactive plotting:
+
+```{r}
+library(manipulate)
+
+source("https://raw.githubusercontent.com/petrkeil/ML_and_Bayes_2017_iDiv/master/Univariate%20Poisson%20Model/plotting_poisson.r")
+```
+
 # Poisson distribution
 
 Poisson distribution is a simple model for discrete and **positive count data**.
@@ -50,6 +60,14 @@ Now we can plot the respective **probability mass functions**:
   points(0:35, dpois(0:35, lambda=5), col="red", pch=19)
   points(0:35, dpois(0:35, lambda=20), col="green", pch=19)
 ```
+
+Interactive version
+
+```{r, eval=FALSE}
+manipulate(move.poisson(lambda),
+           lambda=slider(1,100))
+```
+
 
 # Poisson likelihood
 
@@ -106,10 +124,8 @@ abline(v=MLE)
 # Interactive visualization
 
 ```{r, eval=FALSE}
-source("")
-
-
-
+manipulate(plot.poisson.deviance(x, lambda),
+           lambda = slider(1, 20))
 ```
 
 
