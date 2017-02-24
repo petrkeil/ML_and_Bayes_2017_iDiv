@@ -16,7 +16,7 @@ also do more likelihood stuff.
 
 ***
 
-Optional functions for interactive plotting:
+Optional functions for interactive plotting for those with R-studio:
 
 ```{r}
 library(manipulate)
@@ -52,7 +52,7 @@ We can plot the "empirical frequency histogram" for simulated data with 3 differ
   hist(rpois(n=100, lambda=20), add=T, freq=FALSE, col="green")
 ```
 
-Now we can plot the respective **probability mass functions**:
+Let's plot the respective **probability mass functions**:
 ```{r, tidy=FALSE}
   plot(0:35, dpois(0:35, lambda=1), 
        col="blue", pch=19, 
@@ -66,7 +66,7 @@ Interactive version
 
 ```{r, eval=FALSE}
 manipulate(move.poisson(lambda),
-           lambda=slider(1,100))
+           lambda=slider(1,100, step=0.01))
 ```
 
 
@@ -122,11 +122,13 @@ plot(lambdas, deviances, ylab="Deviance (Negative Log Likelihood)")
 abline(v=MLE)
 ```
 
-# Interactive visualization
+***
+
+Interactive visualization:
 
 ```{r, eval=FALSE}
 manipulate(plot.poisson.deviance(x, lambda),
-           lambda = slider(1, 20))
+           lambda = slider(1, 20, step = 0.01))
 ```
 
 

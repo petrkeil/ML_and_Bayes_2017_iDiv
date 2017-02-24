@@ -186,37 +186,39 @@ It follows that it is useful to subject *probability density $p()$* to the same 
   prod(L)
 ```
 This is a ridiculously small number!
-Which is why we have the **Negative Log Likelihood**, also known as the **deviance**:
+Which is why we have the **Negative Log Likelihood**:
 ```{r}
   - sum(log(L))
 ```
 
 We can encapsulate it into a single function:
 ```{r}
-  deviance.function <- function(x, mean, sd)
+  neg.LL.function <- function(x, mean, sd)
   {
     LL <- dnorm(x=x, mean=mean, sd=sd, log=TRUE) # note the log!!!
-    deviance <- - sum(LL)
-    return(deviance)
+    neg.LL <- - sum(LL)
+    return(neg.LL)
   }
 ```
 
 It's a function of model parameters, so try to play around with different paramter values:
 
 ```{r}
-  deviance.function(wings, mean=0, sd=1)
+  neg.LL.function(wings, mean=0, sd=1)
 ```
 
-Deviance (negative log-likelihood) can be then minimized (likelihood is maximized) in order to find the most likely model parameters - these are the **Maximum Likelihood Estimators (MLE)** of model parameters.
+Negative log-likelihood can be then minimized (likelihood is maximized) in order to find the most likely model parameters - these are the **Maximum Likelihood Estimators (MLE)** of model parameters.
 
 # Exercise
 
 ***
 
 **Find and plot the MLE of the Normal model and the 'wings' data.** 
+
 Use the following functions and scripts:
+
 ```{r, eval=FALSE}
- deviance.function()
+ neg.LL.function()
  hist()
  curve()
 ```
@@ -234,23 +236,23 @@ manipulate(curve.data.deviance(mean, sd),
 
 # Using ```optim()``` to find MLE
 
-`optim` needs the `deviance.function` to take only one object, which can be
+`optim` needs the `neg.LL.function` to take only one object, which can be
 a vector (or a list). So I will just put all of the data into `dat` object,
 and the parameters into `par` object.
 
 ```{r}
-deviance.function.for.optim <- function(par, dat)
+neg.LL.function.for.optim <- function(par, dat)
 {
   LL <- dnorm(x=dat, mean=par[1], sd=par[2], log=TRUE) # note the log!!!
-  deviance <- - sum(LL)
-  return(deviance)
+  neg.LL <- - sum(LL)
+  return(neg.LL)
 }
 ```
 
 And run the actual optimization:
 ```{r}
 optim(par=c(mean=0,var=1), 
-      fn=deviance.function.for.optim, 
+      fn=neg.LL.function.for.optim, 
       dat=wings)
 ```
 

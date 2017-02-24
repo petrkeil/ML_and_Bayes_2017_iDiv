@@ -26,9 +26,9 @@ curve.data.l.point <- function(mean, sd, i)
 
 # ------------------------------------------------------------------------------
 
-curve.data.deviance <- function(mean, sd)
+curve.data.LL <- function(mean, sd)
 {
-  LL <- deviance.function(wings, mean=mean, sd=sd)
+  LL <- neg.LL.function(wings, mean=mean, sd=sd)
    
   curve(dnorm(x, mean, sd), from=2, to=6, ylim=c(0, 1), 
         ylab="p(wings | mu, sigma)", xlab="wings",
