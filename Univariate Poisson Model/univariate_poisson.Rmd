@@ -95,10 +95,10 @@ We can try different values of $\lambda$:
 
 And we can evaluate the ```negLL.function``` for values of $\lambda$ between 0 and 35:
 ```{r, tidy=FALSE}
-  lambdas <- seq(0, 30, b)
-  negLL.vector <- numeric(36) # empty numeric vector
+  lambdas <- seq(0, 30, by=0.1)
+  negLL.vector <- numeric(0) # empty numeric vector
   
-  for(i in 1:36)
+  for(i in 1:length(lambdas))
   {
     negLL.vector[i] <- negLL.function(x, lambdas[i])  
   }
@@ -140,8 +140,15 @@ $$AIC = -2L + 2k$$
 where $L$ is the best log likelihood of the entire dataset, and $k$ is number of parameters. So for our best estimate ($\lambda = 8$), AIC will be:
 
 ```{r}
-  AIC = 2*negLL.function(x, lambda=8) + 2*1
+  AIC = 2*negLL.function(x, lambda=MLE) + 2*1
   AIC
 ```
+
+We can compare this with the output of `glm` function:
+
+```{r}
+ glm(x~1, family="poisson")
+```
+
 
 
