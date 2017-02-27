@@ -6,10 +6,6 @@ March 2017, iDiv
 
 ![](Thomas_Bayes.png)
 
-Software
-========================================================
-![](software_and_R_packages.png)
-
 
 Software
 ========================================================
@@ -36,6 +32,7 @@ Software
 **R packages for JAGS**
 - ```rjags ``` - gives full control over JAGS
 - ```R2jags``` - simpler and more user-friendly
+- ```runjags``` - simple, parallel-friendly
 
 Software
 ========================================================
@@ -47,6 +44,10 @@ Software
 
 **R packages for STAN**
 - ```RStan```
+
+Software
+========================================================
+![](software_and_R_packages.png)
 
 Software
 ========================================================
