@@ -1,11 +1,19 @@
-Doing it Bayesian
+The Bayesian way
 ========================================================
-author: Petr Keil, Jan Smycka
-date: January 2016
+Petr Keil
 
-![](how_to_bayes-figure/theorem.png)
+March 2017
 
-![](how_to_bayes-figure/logo.jpg)
+![](Thomas_Bayes.png)
+
+Are we interested in the data, or the model, or the parameters?
+========================================================
+
+![plot of chunk unnamed-chunk-1](how_to_bayes-figure/unnamed-chunk-1-1.png)
+
+$y_i \sim Normal(\mu_i, \sigma)$
+
+$\mu_i = a + b \times x_i$ 
 
 Conditional probability
 ========================================================
@@ -21,7 +29,7 @@ which is **the Bayes rule**.
 
 Bayes rule in statistics
 ========================================================
-We can replace $A$ and $B$ by model parameters $\theta$ and the data $y$ to get 
+We can replace $A$ and $B$ by **model parameters** $\theta$ and the **data** $y$ to get 
 
 $p(\theta|y) = \frac {p(\theta) \times p(y|\theta)}{p(y)}$
 
@@ -116,7 +124,7 @@ This makes the expression $p(y|\theta) \times p(\theta)$ integrable.
 INLA
 ========================================================
 
-![plot of chunk unnamed-chunk-1](how_to_bayes-figure/unnamed-chunk-1-1.png) 
+![plot of chunk unnamed-chunk-2](how_to_bayes-figure/unnamed-chunk-2-1.png)
 
 INLA - properties
 ========================================================

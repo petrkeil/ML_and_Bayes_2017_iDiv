@@ -1,11 +1,27 @@
-Doing it Bayesian
+The Bayesian way
 ========================================================
-author: Petr Keil, Jan Smycka
-date: January 2016
+Petr Keil
 
-![](how_to_bayes-figure/theorem.png)
+March 2017
 
-![](how_to_bayes-figure/logo.jpg)
+![](Thomas_Bayes.png)
+
+Are we interested in the data, or the model, or the parameters?
+========================================================
+
+```{r, echo=FALSE, fig.width=5, fig.height=5}
+  x <- sort(rnorm(20))
+  y <- 2 + 3*x + rnorm(20)
+  plot(x,y, pch=19)
+  mx <- predict(lm(y~x), interval="predict" ) 
+  lines(x, mx[,'fit'], col="red")
+  lines(x, mx[,'lwr'], lty=2, col="red")
+  lines(x, mx[,'upr'], lty=2, col="red")
+```
+
+$y_i \sim Normal(\mu_i, \sigma)$
+
+$\mu_i = a + b \times x_i$ 
 
 Conditional probability
 ========================================================
@@ -21,7 +37,7 @@ which is **the Bayes rule**.
 
 Bayes rule in statistics
 ========================================================
-We can replace $A$ and $B$ by model parameters $\theta$ and the data $y$ to get 
+We can replace $A$ and $B$ by **model parameters** $\theta$ and the **data** $y$ to get 
 
 $p(\theta|y) = \frac {p(\theta) \times p(y|\theta)}{p(y)}$
 
