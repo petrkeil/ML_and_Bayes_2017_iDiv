@@ -1,20 +1,24 @@
 Bayesian resources
 ========================================================
-author: Petr Keil
-date: January 2016
+Petr Keil
 
-![](resources_presentation-figure/theorem.png)
+March 2017, iDiv
 
-![](resources_presentation-figure/logo.jpg)
+![](Thomas_Bayes.png)
+
+Software
+========================================================
+![](software_and_R_packages.png)
+
 
 Software
 ========================================================
 **OpenBUGS** [www.openbugs.net](http://openbugs.net/w/FrontPage)
 - Successor of (now discontinued) WinBUGS.
-- The software that made Bayesian analysis popular.
-- Has a GUI, but can also be commanded from **R**.
-- Great set of example models.
-- Useful for spatial analysis.
+- Made Bayesian analysis popular.
+- Has a GUI or can be commanded from **R**.
+- Great example models.
+- Useful for **spatial analysis**.
 - Difficult to debug, somewhat unpredictable.
 
 **R packages for OpenBUGS**
@@ -59,17 +63,18 @@ Software
 ========================================================
 **Other useful R packages** - [see the CTAN taskview](http://cran.r-project.org/web/views/Bayesian.html)
 
-- ```coda``` handles and summarizes MCMC output.
-- ```MCMCglmm``` simple Bayesian GLM fitting. 
-- ```spBayes``` and ```geoRglm``` for spatially explicit modelling.
-- ```hSDM``` Hierarchical Species Distribution Modelling.
-- ```ggmcmc``` pretty output visualization in ```ggplot2``` style.
-![](resources_presentation-figure/ggmcmc.png)
+- ```coda``` -- handles and summarizes MCMC chains
+- ```HDInterval``` --  High Density Intervals
+- ```MCMCglmm``` -- simple Bayesian GLM
+- ```spBayes``` and ```geoRglm``` -- spatially explicit modelling
+- ```hSDM``` -- Hierarchical Species Distribution Modelling
+- ```ggmcmc``` -- pretty output visualization in ```ggplot2``` style
+
 
 Books
 ========================================================
 ![](resources_presentation-figure/kery1.png)
-![](resources_presentation-figure/kery2.png)
+
 
 Books
 ========================================================
@@ -78,22 +83,29 @@ Books
 
 Books
 ========================================================
+![](resources_presentation-figure/gelman2.png)
+
+Books
+========================================================
+![](resources_presentation-figure/bugsbook.png)
+
+Books
+========================================================
 ![](resources_presentation-figure/kruschke.png)
 
 Books
 ========================================================
 ![](resources_presentation-figure/gelman1.png)
-![](resources_presentation-figure/gelman2.png)
-
-Books
-========================================================
-![](resources_presentation-figure/royle.png)
-![](resources_presentation-figure/mackenzie.png)
 
 Books
 ========================================================
 ![](resources_presentation-figure/clark.png)
 ![](resources_presentation-figure/kery_book_cover.jpeg)
+
+Books
+========================================================
+![](resources_presentation-figure/royle.png)
+![](resources_presentation-figure/mackenzie.png)
 
 On-line resources
 ========================================================

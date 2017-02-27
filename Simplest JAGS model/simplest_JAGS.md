@@ -1,11 +1,12 @@
-First real model in JAGS
+First model in JAGS
 ========================================================
-author: Petr Keil
-date: January 2016
+Petr Keil
 
-![](simplest_JAGS-figure/theorem.png)
+March 2017, iDiv
 
-![](simplest_JAGS-figure/logo.jpg)
+![](Thomas_Bayes.png)
+
+
 
 JAGS - preparing the data
 ========================================================
@@ -154,7 +155,7 @@ JAGS - model specification
   plot(as.mcmc(fitted.model))
 ```
 
-![plot of chunk unnamed-chunk-4](simplest_JAGS-figure/unnamed-chunk-4-1.png) 
+![plot of chunk unnamed-chunk-4](simplest_JAGS-figure/unnamed-chunk-4-1.png)
 
 JAGS - model specification
 ========================================================
@@ -168,17 +169,17 @@ Inference for Bugs model at "my_model.txt", fit using jags,
  3 chains, each with 2000 iterations (first 1000 discarded)
  n.sims = 3000 iterations saved
          mu.vect sd.vect    2.5%     25%     50%     75%   97.5%  Rhat
-lambda    30.845   1.366  28.279  29.860  30.865  31.765  33.518 1.001
-deviance 165.846   1.313 164.877 164.987 165.339 166.164 169.593 1.014
+lambda    30.857   1.405  28.047  29.918  30.852  31.762  33.680 1.001
+deviance 165.903   1.461 164.876 164.977 165.334 166.221 170.096 1.005
          n.eff
 lambda    3000
-deviance   640
+deviance  3000
 
 For each parameter, n.eff is a crude measure of effective sample size,
 and Rhat is the potential scale reduction factor (at convergence, Rhat=1).
 
 DIC info (using the rule, pD = var(deviance)/2)
-pD = 0.9 and DIC = 166.7
+pD = 1.1 and DIC = 167.0
 DIC is an estimate of expected predictive error (lower deviance is better).
 ```
 
@@ -189,5 +190,5 @@ JAGS - model specification
   plot(fitted.model)
 ```
 
-![plot of chunk unnamed-chunk-6](simplest_JAGS-figure/unnamed-chunk-6-1.png) 
+![plot of chunk unnamed-chunk-6](simplest_JAGS-figure/unnamed-chunk-6-1.png)
 

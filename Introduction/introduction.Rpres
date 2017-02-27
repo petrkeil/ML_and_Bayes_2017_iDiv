@@ -9,6 +9,23 @@ Petr Keil
 ![](introduction-figure/Thomas_Bayes.png)
 
 
+Preface
+========================================================
+- I am not a statistician.
+- I will show the basics, you figure out the rest.
+- Do ask questions and interrupt!
+
+Preface
+========================================================
+
+It would be wonderful if, after the course, you would:
+- Not be intimidated by Bayesian and ML papers.
+- Get the foundations and some of useful connections between concepts to build on.
+- See statistics as a simple construction set (e.g. Lego), rather than 
+as a series of recipes.
+- Have a statistical [satori](https://en.wikipedia.org/wiki/Satori).
+
+
 Contents
 ========================================================
 ***DAY 1***
@@ -22,19 +39,6 @@ Contents
 ***DAY 3***
 - Advanced models (mixed, latent variables)
 - Inference, uncertainty, model selection.
-
-Introduction
-========================================================
-- I am not a statistician.
-- I will show the basics, you figure out the rest.
-- Do ask questions and interrupt!
-
-It would be wonderful if, after the course, you would:
-- Not be intimidated by Bayesian and ML papers.
-- Get the foundations and some of useful connections between concepts to build on.
-- See statistics as a simple construction set (e.g. Lego), rather than 
-as a series of recipes.
-- Have a statistical [satori](https://en.wikipedia.org/wiki/Satori).
 
 
 ========================================================
@@ -151,6 +155,15 @@ The model is always given (assumed), and usually omitted:
 $p(y|\theta)$  ... "likelihood-based" or "frequentist" statistics 
 
 $p(\theta|y)$ ... Bayesian statistics
+
+Maximum Likelihood Estimation (MLE)
+========================================================
+
+- Used for most pre-packaged models (GLM, GLMM, GAM, ...)
+- Great for complex models
+- Relies on **optimization** (relatively fast)
+- Can have problems with local optima
+- Not great with uncertainty
 
 Why go Bayesian?
 ========================================================

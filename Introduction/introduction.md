@@ -9,6 +9,23 @@ Petr Keil
 ![](introduction-figure/Thomas_Bayes.png)
 
 
+Preface
+========================================================
+- I am not a statistician.
+- I will show the basics, you figure out the rest.
+- Do ask questions and interrupt!
+
+Preface
+========================================================
+
+It would be wonderful if, after the course, you would:
+- Not be intimidated by Bayesian and ML papers.
+- Get the foundations and some of useful connections between concepts to build on.
+- See statistics as a simple construction set (e.g. Lego), rather than 
+as a series of recipes.
+- Have a statistical [satori](https://en.wikipedia.org/wiki/Satori).
+
+
 Contents
 ========================================================
 ***DAY 1***
@@ -22,19 +39,6 @@ Contents
 ***DAY 3***
 - Advanced models (mixed, latent variables)
 - Inference, uncertainty, model selection.
-
-Introduction
-========================================================
-- I am not a statistician.
-- I will show the basics, you figure out the rest.
-- Do ask questions and interrupt!
-
-It would be wonderful if, after the course, you would:
-- Not be intimidated by Bayesian and ML papers.
-- Get the foundations and some of useful connections between concepts to build on.
-- See statistics as a simple construction set (e.g. Lego), rather than 
-as a series of recipes.
-- Have a statistical [satori](https://en.wikipedia.org/wiki/Satori).
 
 
 ========================================================
@@ -56,26 +60,26 @@ Data
 
 ```
              x          y
-1  -2.00891759 -3.5958356
-2  -1.73666836 -2.3097089
-3  -1.44270105 -1.3216507
-4  -1.31910570 -1.3521506
-5  -0.96997693 -0.6193510
-6  -0.52789809  0.5583636
-7  -0.39306081  1.0985542
-8  -0.30834826  1.3306952
-9   0.03697981  2.0264832
-10  0.04483166  1.4511366
-11  0.24907778  1.3033032
-12  0.52399462  2.5591704
-13  0.53552821  1.4147328
-14  0.64351120  4.8814696
-15  0.67618944  4.1210663
-16  0.94662069  4.7640933
-17  0.99478589  3.8805494
-18  1.15484147  5.2061357
-19  1.28111324  6.8281364
-20  2.00988502  7.5959327
+1  -1.54352265 -4.5569220
+2  -0.64343655  0.7233307
+3  -0.63068198 -1.0953938
+4  -0.55541558  0.8892863
+5  -0.25875052  2.2808071
+6  -0.11483145  2.0415589
+7  -0.07865195  1.6356365
+8  -0.03504052  2.9701589
+9  -0.02227333  2.0659582
+10  0.03009962  3.3202766
+11  0.12816718  0.6696405
+12  0.13978686  2.4754113
+13  0.14536067  2.6202971
+14  0.18098479  1.7520661
+15  0.26946086  3.4488679
+16  0.39354099  1.9128514
+17  0.43500115  3.5477902
+18  0.57812186  3.4012163
+19  0.79093353  5.3787046
+20  1.40382759  7.4157093
 ```
 
 Data
@@ -149,6 +153,15 @@ The model is always given (assumed), and usually omitted:
 $p(y|\theta)$  ... "likelihood-based" or "frequentist" statistics 
 
 $p(\theta|y)$ ... Bayesian statistics
+
+Maximum Likelihood Estimation (MLE)
+========================================================
+
+- Used for most pre-packaged models (GLM, GLMM, GAM, ...)
+- Great for complex models
+- Relies on **optimization** (relatively fast)
+- Can have problems with local optima
+- Not great with uncertainty
 
 Why go Bayesian?
 ========================================================
