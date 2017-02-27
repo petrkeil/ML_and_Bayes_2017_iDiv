@@ -1,9 +1,9 @@
 Bayesian Biostatistics
 ========================================================
 author: Petr Keil 
-date: January 2016
+date: March 2017
 
-![](introduction-figure/theorem.png)
+![](introduction-figure/Thomas_Bayes.png)
 
 ![](introduction-figure/logo.jpg)
 
@@ -18,13 +18,22 @@ Contents
 - Classical models (regression, ANOVA)
 
 ***DAY 3***
-- Advanced models (mixed, time series)
+- Advanced models (mixed, latent variables)
 - Inference, uncertainty, model selection.
 
-Contents
+Introduction
 ========================================================
-- I will show you the basics, you should figure out the rest yourselves.
-- Please, do ask questions and interrupt.
+- I am not a statistician.
+- I will show the basics, you figure out the rest.
+- Do ask questions and interrupt!
+
+It would be wonderful if, after the course, you would:
+- Not be intimidated by Bayesian and ML papers.
+- Get the foundations and some of useful connections between concepts to build on.
+- See statistics as a simple construction set (e.g. Lego), rather than 
+as a series of recipes.
+- Have a statistical [satori](https://en.wikipedia.org/wiki/Satori).
+
 
 ========================================================
 
@@ -44,27 +53,27 @@ Data
 ========================================================
 
 ```
-             x           y
-1  -1.52304837 -2.81429336
-2  -1.42440290 -1.58547185
-3  -1.37469652 -1.68734171
-4  -1.31422445 -1.78766755
-5  -1.28773158 -2.65935810
-6  -1.07090507 -0.01386621
-7  -0.84352620 -0.31224613
-8  -0.69390819  1.28746096
-9  -0.42314535 -0.51527966
-10 -0.06358984  1.74832816
-11  0.15274243  3.55826220
-12  0.18780042  1.74025496
-13  0.28711638  3.97643448
-14  0.30653888  2.40384641
-15  0.35451255  3.83180851
-16  0.70565670  4.57781049
-17  0.86796405  4.86931115
-18  1.05492459  4.47386135
-19  1.07799967  5.48382812
-20  2.06541310  8.03632115
+            x          y
+1  -1.5662753 -3.1321101
+2  -1.5623262 -1.4486508
+3  -1.4167531 -3.0018162
+4  -1.3959034 -1.9919856
+5  -0.9921709 -1.3053559
+6  -0.8336172  0.6627780
+7  -0.8227376 -0.7665444
+8  -0.6303728  1.0036615
+9  -0.2659597  2.1853587
+10  0.2031835  2.0210690
+11  0.2192059  3.0333628
+12  0.2465185  2.1666019
+13  0.5168546  3.5399038
+14  0.6993243  1.8969911
+15  0.7788060  4.3901835
+16  0.7795634  3.7494500
+17  0.8214875  4.7357428
+18  1.4660839  6.0330723
+19  1.6912544  7.5953942
+20  2.3821224  9.4189049
 ```
 
 Data
@@ -96,14 +105,16 @@ $x_i \sim Normal(\mu, \sigma)$
 Can you tell what is based on a parametric model?
 ========================================================
 - Permutation tests
+- Normal distribution
 - Kruskall-Wallis test
 - Histogram
 - t-test
-- Neural networks
+- Neural networks, random forests
 - ANOVA
 - Survival analysis
+- Pearson correlation
 - PCA (principal components analysis)
-- Normal distribution
+
 
 Elementary notation
 ========================================================
@@ -112,6 +123,7 @@ Elementary notation
 - $P(A \cup B)$ ... Union probability (OR)
 - $P(A|B)$ ... Conditional probability (GIVEN THAT)
 - $\sim$ ... is distributed as
+- $x \sim N(\mu, \sigma)$ ... x is a normally distributed **random variable**
 - $\propto$ ... is proportional to (related by constant multiplication)
 
 Elementary notation

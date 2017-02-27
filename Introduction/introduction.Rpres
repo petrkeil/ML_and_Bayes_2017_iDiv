@@ -1,9 +1,9 @@
 Bayesian Biostatistics
 ========================================================
 author: Petr Keil 
-date: January 2016
+date: March 2017
 
-![](introduction-figure/theorem.png)
+![](introduction-figure/Thomas_Bayes.png)
 
 ![](introduction-figure/logo.jpg)
 
@@ -18,13 +18,22 @@ Contents
 - Classical models (regression, ANOVA)
 
 ***DAY 3***
-- Advanced models (mixed, time series)
+- Advanced models (mixed, latent variables)
 - Inference, uncertainty, model selection.
 
-Contents
+Introduction
 ========================================================
-- I will show you the basics, you should figure out the rest yourselves.
-- Please, do ask questions and interrupt.
+- I am not a statistician.
+- I will show the basics, you figure out the rest.
+- Do ask questions and interrupt!
+
+It would be wonderful if, after the course, you would:
+- Not be intimidated by Bayesian and ML papers.
+- Get the foundations and some of useful connections between concepts to build on.
+- See statistics as a simple construction set (e.g. Lego), rather than 
+as a series of recipes.
+- Have a statistical [satori](https://en.wikipedia.org/wiki/Satori).
+
 
 ========================================================
 
@@ -98,14 +107,16 @@ $x_i \sim Normal(\mu, \sigma)$
 Can you tell what is based on a parametric model?
 ========================================================
 - Permutation tests
+- Normal distribution
 - Kruskall-Wallis test
 - Histogram
 - t-test
-- Neural networks
+- Neural networks, random forests
 - ANOVA
 - Survival analysis
+- Pearson correlation
 - PCA (principal components analysis)
-- Normal distribution
+
 
 Elementary notation
 ========================================================
@@ -114,6 +125,7 @@ Elementary notation
 - $P(A \cup B)$ ... Union probability (OR)
 - $P(A|B)$ ... Conditional probability (GIVEN THAT)
 - $\sim$ ... is distributed as
+- $x \sim N(\mu, \sigma)$ ... x is a normally distributed **random variable**
 - $\propto$ ... is proportional to (related by constant multiplication)
 
 Elementary notation
