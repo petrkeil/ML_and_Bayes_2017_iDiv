@@ -131,13 +131,22 @@ manipulate(plot.poisson.ll(x, lambda),
            lambda = slider(1, 20, step = 0.01))
 ```
 
+************
+
+# Link between log likelihood and deviance
+
+Lunn et al. (2013, p. 138) define **deviance** as:
+
+$$D = -2 \log p(y|\theta)$$
+which is two times the negative likelihood!
+
 # Link between log likelihood and AIC
 
 Simply:
 
-$$AIC = -2L + 2k$$
+$$AIC = D + 2k$$
 
-where $L$ is the best log likelihood of the entire dataset, and $k$ is number of parameters. So for our best estimate ($\lambda = 8$), AIC will be:
+where $k$ is number of parameters. So for our best estimate ($\lambda = 8$), AIC will be:
 
 ```{r}
   AIC = 2*negLL.function(x, lambda=MLE) + 2*1
@@ -150,5 +159,6 @@ We can compare this with the output of `glm` function:
  glm(x~1, family="poisson")
 ```
 
-
+Note, the deviance here is different from our definition, since GLM seems to report **saturated**
+version of deviance (Lunn et al. 2013, p. 144)
 
