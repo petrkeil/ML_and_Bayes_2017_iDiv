@@ -1,4 +1,4 @@
-Bayesian resources
+Bayesian software and resources
 ========================================================
 Petr Keil
 
