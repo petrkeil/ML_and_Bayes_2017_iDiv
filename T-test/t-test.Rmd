@@ -5,6 +5,7 @@ date: "March 2017"
 output:
   html_document:
     highlight: pygments
+    keep_md: yes
     number_sections: yes
     theme: cerulean
     toc: yes

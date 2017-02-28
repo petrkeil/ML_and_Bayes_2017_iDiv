@@ -1,164 +1,104 @@
-T-test
-========================================================
+# Comparing means of two groups: Frequentist and Bayesian t-test
+Petr Keil  
+March 2017  
 
-The data
---------
+***
+
+# Objective
+
+Here we will implement a Bayesian version of the classical T-test. We will also explore some ways to **summarize the JAGS output**, and we will introduce the concept of **derived quantity**.
+
+***
+
+# The data
 
 
 
-
-We will use the example from **Marc Kery's Introduction to WinBUGS for Ecologists**, page 92 (Section 7.1 - t-test). The data describe wingspan of male and female Peregrine falcon (*Falco peregrinus*) (Sokol stehovavy in CZ).
+We will use the example from **Marc Kery's Introduction to WinBUGS for Ecologists**, page 92 (Section 7.1 - t-test). The data describe wingspan of male and female [Peregrine falcon](https://en.wikipedia.org/wiki/Peregrine_falcon) (*Falco peregrinus*).
 
 ![](figure/falcon.png)
 
-Let's load the data and have a look at them:
+***
+
+Let's load the data:
 
 
 ```r
-  falcon <- read.csv("http://www.petrkeil.com/wp-content/uploads/2014/02/falcon.csv")
-  summary(falcon)
+falcon <- read.csv("http://www.petrkeil.com/wp-content/uploads/2014/02/falcon.csv")
 ```
 
-```
-##     wingspan          male    
-##  Min.   : 60.7   Min.   :0.0  
-##  1st Qu.: 79.6   1st Qu.:0.0  
-##  Median : 97.8   Median :0.0  
-##  Mean   : 93.8   Mean   :0.4  
-##  3rd Qu.:105.9   3rd Qu.:1.0  
-##  Max.   :120.3   Max.   :1.0
-```
+And explore the data a bit:
+
 
 ```r
-  boxplot(wingspan ~ male, data=falcon, 
-          names=c("Female", "Male"),
-          ylab="Wingspan [cm]",
-          col="grey")
+summary(falcon)
+boxplot(wingspan ~ male, data=falcon, 
+        names=c("Female", "Male"),
+        ylab="Wingspan [cm]",
+        col="grey")
 ```
 
-![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2.png) 
+***
 
-********************************************************************************
-
-The classical frequentist solutions in R
-----------------------------------------
+# t-test: The classical frequentist solution in R
 
 We can use the classical two-sample ```t.test()```: 
 
 ```r
-x <- falcon$wingspan[falcon$male == 1]
-y <- falcon$wingspan[falcon$male == 0]
+x <- falcon$wingspan[falcon$male==1]
+y <- falcon$wingspan[falcon$male==0]
 t.test(x, y)
 ```
 
-```
-## 
-## 	Welch Two Sample t-test
-## 
-## data:  x and y
-## t = -17.26, df = 76.73, p-value < 2.2e-16
-## alternative hypothesis: true difference in means is not equal to 0
-## 95 percent confidence interval:
-##  -31.21 -24.76
-## sample estimates:
-## mean of x mean of y 
-##     76.99    104.97
-```
-
-
-Which should be equivalent to ```lm()```:
+**Note:** this can also be done by ```lm()```:
 
 ```r
-lm1 <- lm(wingspan ~ male, data = falcon)
+lm1 <- lm(wingspan ~ male, data=falcon)
 summary(lm1)
 ```
 
-```
-## 
-## Call:
-## lm(formula = wingspan ~ male, data = falcon)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -16.279  -4.930  -0.776   4.747  21.631 
-## 
-## Coefficients:
-##             Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)   104.97       1.00   104.9   <2e-16 ***
-## male          -27.99       1.58   -17.7   <2e-16 ***
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Residual standard error: 7.75 on 98 degrees of freedom
-## Multiple R-squared:  0.761,	Adjusted R-squared:  0.759 
-## F-statistic:  313 on 1 and 98 DF,  p-value: <2e-16
-```
-
-
-Which should be equivalent to ```glm()```:
+... or by ```glm()```:
 
 ```r
-glm1 <- glm(wingspan ~ male, data = falcon)
+glm1 <- glm(wingspan ~ male, data=falcon)
 summary(glm1)
 ```
 
-```
-## 
-## Call:
-## glm(formula = wingspan ~ male, data = falcon)
-## 
-## Deviance Residuals: 
-##     Min       1Q   Median       3Q      Max  
-## -16.279   -4.930   -0.776    4.747   21.631  
-## 
-## Coefficients:
-##             Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)   104.97       1.00   104.9   <2e-16 ***
-## male          -27.99       1.58   -17.7   <2e-16 ***
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## (Dispersion parameter for gaussian family taken to be 60.13)
-## 
-##     Null deviance: 24689.5  on 99  degrees of freedom
-## Residual deviance:  5893.1  on 98  degrees of freedom
-## AIC: 697.4
-## 
-## Number of Fisher Scoring iterations: 2
-```
+***
 
+# t-test: The 'didactic' solution in JAGS
 
-********************************************************************************
-
-The dumb but didactic Bayesian solution
-------------------------------------------
+We assume the each males and females each have their own Normal distribution, from which the wingspans are drawn:
 
 $y_m \sim Normal(\mu_m, \sigma)$
 
 $y_f \sim Normal(\mu_f, \sigma)$
 
-This is the hypothesis that we test:
+Note that the variance ($\sigma$) is the same in both groups.
+
+This is the hypothesis that we usually test in the frequentist setting:
 $\delta = \mu_f - \mu_m \neq 0$
-We can actually ask even more directly: **What is the mean difference between female and male wingspan ($\delta$)?**
+
+But we can actually ask even more directly: **What is the mean difference ($\delta$) between female and male wingspan?**
+
+***
 
 Here is how we prepare the data for JAGS:
 
 ```r
-  y.male <- falcon$wingspan[falcon$male==1]
-  y.female <- falcon$wingspan[falcon$male==0]
-  falcon.data.1 <- list(y.f=y.female,
-                        N.f=60,
-                        y.m=y.male,
-                        N.m=40)
+y.male <- falcon$wingspan[falcon$male==1]
+y.female <- falcon$wingspan[falcon$male==0]
+falcon.data.1 <- list(y.f=y.female,
+                      N.f=60,
+                      y.m=y.male,
+                      N.m=40)
 ```
-
 
 Loading the necessary library:
 
 ```r
 library(R2jags)
 ```
-
 
 Definition of the model:
 
@@ -167,9 +107,9 @@ cat("
 model
 {
   # priors
-    mu.f ~ dnorm(0, 0.001) # Note: tau = 1/variance
+    mu.f ~ dnorm(0, 0.001) 
     mu.m ~ dnorm(0, 0.001)
-    tau <- 1/(sigma*sigma)
+    tau <- 1/(sigma*sigma)   ## Note: tau = 'precision' = 1/variance
     sigma ~ dunif(0,100)
   
   # likelihood - Females
@@ -191,70 +131,81 @@ model
 ", file="t-test.bug")
 ```
 
-
 The MCMC sampling done by ```jags()``` function:
 
 ```r
 model.fit <- jags(data=falcon.data.1, 
-               model.file="t-test.bug",
-               parameters.to.save=c("mu.f", "mu.m", "sigma", "delta"),
-               n.chains=3,
-               n.iter=2000,
-               n.burnin=1000,
-               DIC=FALSE)
+                  model.file="t-test.bug",
+                  parameters.to.save=c("mu.f", "mu.m", "sigma", "delta"),
+                  n.chains=3,
+                  n.iter=2000,
+                  n.burnin=1000,
+                  DIC=FALSE)
 ```
 
-```
-## Compiling model graph
-##    Resolving undeclared variables
-##    Allocating nodes
-##    Graph Size: 112
-## 
-## Initializing model
-```
+And we can explore the posterior distributions:
 
-```r
-
-plot(as.mcmc(model.fit))
-```
-
-![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-9.png) 
 
 ```r
 model.fit
+plot(model.fit)
+summary(model.fit)
+summary(as.mcmc(model.fit))
+plot(as.mcmc(model.fit))
 ```
 
+## Alternative ways to run and plot the model (optinal)
+
+You can also explore an alternative call with ```run.jags()``` function from package ```runjags```.
+
+
+```r
+library(runjags)
+
+model.fit <- run.jags(data=falcon.data.1, 
+                      model="t-test.bug",
+                      monitor=c("mu.f", "mu.m", "sigma", "delta"),
+                      n.chains=3,
+                      sample=1000,
+                      burnin=1000)
 ```
-## Inference for Bugs model at "t-test.bug", fit using jags,
-##  3 chains, each with 2000 iterations (first 1000 discarded)
-##  n.sims = 3000 iterations saved
-##       mu.vect sd.vect    2.5%     25%     50%     75%   97.5%  Rhat n.eff
-## delta  27.986   1.567  24.920  26.933  27.982  29.066  31.051 1.005   470
-## mu.f  104.886   0.987 102.885 104.238 104.892 105.551 106.699 1.006   350
-## mu.m   76.900   1.231  74.568  76.067  76.890  77.741  79.363 1.001  2200
-## sigma   7.834   0.550   6.823   7.464   7.806   8.166   8.999 1.003  3000
-## 
-## For each parameter, n.eff is a crude measure of effective sample size,
-## and Rhat is the potential scale reduction factor (at convergence, Rhat=1).
+
+
+```r
+plot(model.fit, plot.type="histogram")
 ```
 
+You can also try a fancy plotting using ```mcmcplots``` package:
 
-********************************************************************************
 
-The model - the standard solution
----------------------------------
+```r
+library(mcmcplots)
+
+caterplot(model.fit)
+denplot(model.fit)
+```
+
+***
+
+# t-test: The 'conventional' solution in JAGS
+
+Alternativelly, you can also specify the model in a more conventional way:
+
 $\mu_i = \mu_f + \delta \times male_i$
 
 $y_i \sim Normal(\mu_i, \sigma)$
 
-Preparing the data for JAGS:
+**Tip**: For different ways to write the same model see Gelman & Hill (2007) *Data analysis using regression and multilevel/hierarchical models*, **page 262**.
+
+***
+
+Preparing the data for JAGS is somewhat different than above:
 
 ```r
 falcon.data.2 <- list(y=falcon$wingspan,
                       male=falcon$male,
                       N=100)
 ```
-
 
 Definition of the model:
 
@@ -281,53 +232,28 @@ model
 ", file="t-test2.bug")
 ```
 
-
 The MCMC sampling done by ```jags()``` function:
 
 ```r
 model.fit <- jags(data=falcon.data.2, 
-               model.file="t-test2.bug",
-               parameters.to.save=c("mu.f", "mu.m", "sigma", "delta"),
-               n.chains=3,
-               n.iter=2000,
-               n.burnin=1000,
-               DIC=FALSE)
+                  model.file="t-test2.bug",
+                  parameters.to.save=c("mu.f", "mu.m", "sigma", "delta"),
+                  n.chains=3,
+                  n.iter=2000,
+                  n.burnin=1000,
+                  DIC=FALSE)
 ```
 
-```
-## Compiling model graph
-##    Resolving undeclared variables
-##    Allocating nodes
-##    Graph Size: 215
-## 
-## Initializing model
-```
+And we can explore the posterior distributions:
 
-```r
-
-plot(as.mcmc(model.fit))
-```
-
-![plot of chunk unnamed-chunk-12](figure/unnamed-chunk-12.png) 
 
 ```r
 model.fit
+plot(model.fit)
+summary(model.fit)
+summary(as.mcmc(model.fit))
+plot(as.mcmc(model.fit))
 ```
-
-```
-## Inference for Bugs model at "t-test2.bug", fit using jags,
-##  3 chains, each with 2000 iterations (first 1000 discarded)
-##  n.sims = 3000 iterations saved
-##       mu.vect sd.vect    2.5%     25%     50%     75%   97.5%  Rhat n.eff
-## delta -27.789   1.575 -30.862 -28.832 -27.790 -26.713 -24.773 1.001  3000
-## mu.f  104.846   0.989 102.852 104.193 104.862 105.522 106.732 1.001  3000
-## mu.m   77.057   1.243  74.561  76.219  77.063  77.914  79.471 1.001  3000
-## sigma   7.839   0.580   6.796   7.439   7.799   8.212   9.045 1.001  3000
-## 
-## For each parameter, n.eff is a crude measure of effective sample size,
-## and Rhat is the potential scale reduction factor (at convergence, Rhat=1).
-```
-
 
 
 
