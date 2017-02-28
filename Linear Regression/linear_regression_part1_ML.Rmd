@@ -1,8 +1,15 @@
 ---
-title: "Linear regression: manual, maximum likelihood and using glm"
+title: "Linear regression using glm, manual ML optimization, and `optim`"
 author: "Petr Keil"
-date: "February 24, 2017"
-output: html_document
+date: "March 2017"
+output:
+  html_document:
+    highlight: pygments
+    keep_md: yes
+    number_sections: yes
+    theme: cerulean
+    toc: yes
+  pdf_document: default
 ---
 
 ![](https://raw.githubusercontent.com/petrkeil/ML_and_Bayes_2017_iDiv/master/FIgures/normal_linear_regression.png)
@@ -15,6 +22,51 @@ xy <- read.csv("https://raw.githubusercontent.com/petrkeil/ML_and_Bayes_2017_iDi
 
 xy
 ```
+
+# The data
+
+We will use data from **Michael Crawley's R Book**, Chapter 10 (Linear Regression). The data show the growth of catepillars fed on experimental diets differing in their tannin contnent.
+
+![danaus caterpillar figure](figure/danaus.png)
+![danaus caterpillar figure](figure/Tannic_acid.png)
+
+To load the data to R directly from the web:
+
+```{r}
+  catepil <- read.table("http://www.petrkeil.com/wp-content/uploads/2016/01/regression.txt", sep="\t", header=TRUE)
+  catepil
+```
+
+The data look like this:
+
+```{r, fig.width=4, fig.height=4}
+  plot(growth~tannin, data=catepil)
+```
+
+# The model
+
+The classical notation:
+$$ growth_i = a + b \times tannin_i + \epsilon_i  $$
+$$ \epsilon_i \sim Normal(0, \sigma)$$
+
+
+An alternative version:
+$$ \mu_i = a + b \times tannin_i $$
+$$ growth_i \sim Normal(\mu_i, \sigma) $$
+
+**Note:** The notations are mathematically equivalent, 
+but the Bayesian notation shows, in my opinion, more directly 
+how we think about the stochastic part of the model.
+
+# Fitting ordinary least squares (OLS) regression
+
+```{r, fig.width=4, fig.height=4}
+  model.lm <- lm(growth~tannin, data=catepil)
+  plot(growth~tannin, data=catepil)
+  abline(model.lm)
+  summary(model.lm)
+```
+
 
 
 # Fitting linear regression manually

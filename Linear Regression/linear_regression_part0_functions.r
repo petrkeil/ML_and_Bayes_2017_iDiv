@@ -2,9 +2,9 @@ xy <- read.csv("https://raw.githubusercontent.com/petrkeil/ML_and_Bayes_2017_iDi
 
 xy
 
-library(manipulate)
+require(manipulate)
 
-myplot <- function(xy, a, b, sigma)
+regr.plot <- function(xy, a, b, sigma)
 {
   
   x <-xy$x
@@ -22,9 +22,9 @@ myplot <- function(xy, a, b, sigma)
   lines(x, up.y, lty=2, col="red")
 }
 
-manipulate(
-myplot(xy, a, b, sigma),
-a = slider(min=-5, max=5, step=0.01, initial=3),
-b = slider(min=-5, max=5, step=0.01, initial=4),
-sigma = slider(min=0, max=3, step=0.01, initial=0.1)
-)
+# manipulate(
+# myplot(xy, a, b, sigma),
+# a = slider(min=-5, max=5, step=0.01, initial=3),
+# b = slider(min=-5, max=5, step=0.01, initial=4),
+# sigma = slider(min=0, max=3, step=0.01, initial=0.1)
+# )

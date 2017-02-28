@@ -43,7 +43,7 @@ $$ growth_i = a + b \times tannin_i + \epsilon_i  $$
 $$ \epsilon_i \sim Normal(0, \sigma)$$
 
 
-An alternative ("Bayesian"") version:
+An alternative version:
 $$ \mu_i = a + b \times tannin_i $$
 $$ growth_i \sim Normal(\mu_i, \sigma) $$
 
