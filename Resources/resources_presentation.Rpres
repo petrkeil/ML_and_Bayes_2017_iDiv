@@ -36,11 +36,13 @@ Software
 
 Software
 ========================================================
-**STAN** - [mc-stan.org](mc-stan.org)
-- The newest and fastest one.
+**STAN** - [mc-stan.org](http://mc-stan.org)
+- The newest one.
 - Can be commanded from **R**, **Python** or Linux shell.
 - Does not use the BUGS language, but the code is similar.
-- The future of MCMC.
+- Slightly more alien, sometimes more flexible, 
+sometimes better mixing, sometimes faster,
+sometimes not.
 
 **R packages for STAN**
 - ```RStan```
@@ -51,7 +53,7 @@ Software
 
 Software
 ========================================================
-**INLA** - [www.r-inla.org](www.r-inla.org)
+**INLA** - [www.r-inla.org](http://www.r-inla.org)
 - Integrated Nested Laplace Approximation
 - Very fast
 - Whole different universe -- not treated in this course.
