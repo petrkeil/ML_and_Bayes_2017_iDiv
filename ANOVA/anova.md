@@ -2,8 +2,6 @@
 Petr Keil  
 March 2017  
 
-
-
 ***
 
 # Objective
@@ -23,12 +21,10 @@ We will use modified data from the example from **Marc Kery's Introduction to Wi
 
 Loading the data from the web:
 
-```r
-  snakes <- read.csv("http://www.petrkeil.com/wp-content/uploads/2014/02/snakes.csv")
 
-# we will artificially delete 9 data points in the first population
-  snakes <- snakes[-(1:9),]
-  
+```r
+  snakes <- read.csv("http://www.petrkeil.com/wp-content/uploads/2017/02/snakes_lengths.csv")
+
   summary(snakes)
 ```
 
@@ -36,8 +32,8 @@ Loading the data from the web:
 ##    population      snout.vent   
 ##  Min.   :1.000   Min.   :36.56  
 ##  1st Qu.:2.000   1st Qu.:43.02  
-##  Median :3.000   Median :49.24  
-##  Mean   :3.439   Mean   :50.07  
+##  Median :3.000   Median :49.76  
+##  Mean   :3.439   Mean   :50.35  
 ##  3rd Qu.:4.000   3rd Qu.:57.60  
 ##  Max.   :5.000   Max.   :61.37
 ```
@@ -54,7 +50,7 @@ Plotting the data:
           col="grey")
 ```
 
-![](anova_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
+![](anova_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
 
 ***
 

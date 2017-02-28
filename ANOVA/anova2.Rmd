@@ -30,12 +30,10 @@ We will use modified data from the example from **Marc Kery's Introduction to Wi
 ***
 
 Loading the data from the web:
-```{r, tidy=FALSE}
-  snakes <- read.csv("http://www.petrkeil.com/wp-content/uploads/2014/02/snakes.csv")
 
-# we will artificially delete 9 data points in the first population
-  snakes <- snakes[-(1:9),]
-  
+```{r, tidy=FALSE}
+  snakes <- read.csv("http://www.petrkeil.com/wp-content/uploads/2017/02/snakes_lengths.csv")
+
   summary(snakes)
 ```
 

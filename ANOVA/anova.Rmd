@@ -12,23 +12,6 @@ output:
   pdf_document: default
 ---
 
-```{r, echo=FALSE}
-  ngroups <- 5
-  nsample <- 10
-  pop.means <- c(50, 40, 45, 55, 60)
-  sigma <- 3
-  
-  n <- ngroups*nsample
-  eps <- rnorm(n, 0, sigma)
-  
-  x <- rep(1:5, rep(nsample, ngroups))
-  means <- rep(pop.means, rep(nsample, ngroups))
-  X <- as.matrix(model.matrix(~as.factor(x)-1))
-  snout <- round( as.numeric(X %*% as.matrix(pop.means) + eps), 2)
-  snakes <- data.frame(population=x, snout.vent=snout)
-  write.csv(snakes, file="snakes.csv", row.names=FALSE)
-```
-
 ***
 
 # Objective
@@ -47,12 +30,10 @@ We will use modified data from the example from **Marc Kery's Introduction to Wi
 ***
 
 Loading the data from the web:
-```{r, tidy=FALSE}
-  snakes <- read.csv("http://www.petrkeil.com/wp-content/uploads/2014/02/snakes.csv")
 
-# we will artificially delete 9 data points in the first population
-  snakes <- snakes[-(1:9),]
-  
+```{r, tidy=FALSE}
+  snakes <- read.csv("http://www.petrkeil.com/wp-content/uploads/2017/02/snakes_lengths.csv")
+
   summary(snakes)
 ```
 

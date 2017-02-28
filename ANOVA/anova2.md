@@ -21,12 +21,10 @@ We will use modified data from the example from **Marc Kery's Introduction to Wi
 
 Loading the data from the web:
 
-```r
-  snakes <- read.csv("http://www.petrkeil.com/wp-content/uploads/2014/02/snakes.csv")
 
-# we will artificially delete 9 data points in the first population
-  snakes <- snakes[-(1:9),]
-  
+```r
+  snakes <- read.csv("http://www.petrkeil.com/wp-content/uploads/2017/02/snakes_lengths.csv")
+
   summary(snakes)
 ```
 
@@ -34,8 +32,8 @@ Loading the data from the web:
 ##    population      snout.vent   
 ##  Min.   :1.000   Min.   :36.56  
 ##  1st Qu.:2.000   1st Qu.:43.02  
-##  Median :3.000   Median :49.24  
-##  Mean   :3.439   Mean   :50.07  
+##  Median :3.000   Median :49.76  
+##  Mean   :3.439   Mean   :50.35  
 ##  3rd Qu.:4.000   3rd Qu.:57.60  
 ##  Max.   :5.000   Max.   :61.37
 ```
@@ -147,12 +145,12 @@ model.fit.fix
 ##  3 chains, each with 2000 iterations (first 1000 discarded)
 ##  n.sims = 3000 iterations saved
 ##          mu.vect sd.vect   2.5%    25%    50%    75%  97.5%  Rhat n.eff
-## alpha[1]  45.174   3.309 38.581 42.954 45.214 47.412 51.522 1.001  3000
-## alpha[2]  41.223   1.021 39.200 40.551 41.223 41.913 43.216 1.001  3000
-## alpha[3]  45.881   1.018 43.833 45.214 45.883 46.541 47.885 1.001  3000
-## alpha[4]  54.388   1.015 52.390 53.756 54.395 55.025 56.413 1.001  3000
-## alpha[5]  58.979   1.039 56.808 58.322 58.991 59.659 61.013 1.001  3000
-## delta12    3.950   3.470 -2.916  1.650  3.940  6.300 10.676 1.001  3000
+## alpha[1]  56.515   3.272 49.989 54.314 56.546 58.697 62.820 1.001  3000
+## alpha[2]  41.218   1.039 39.150 40.549 41.223 41.907 43.271 1.001  3000
+## alpha[3]  45.865   1.035 43.808 45.174 45.882 46.561 47.947 1.001  2500
+## alpha[4]  54.416   1.049 52.263 53.743 54.416 55.140 56.446 1.001  3000
+## alpha[5]  58.956   1.041 56.940 58.273 58.957 59.651 61.003 1.001  3000
+## delta12   15.297   3.429  8.538 13.094 15.343 17.543 21.964 1.001  3000
 ## 
 ## For each parameter, n.eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor (at convergence, Rhat=1).
@@ -266,13 +264,13 @@ model.fit.rnd
 ##  3 chains, each with 2000 iterations (first 1000 discarded)
 ##  n.sims = 3000 iterations saved
 ##             mu.vect sd.vect   2.5%    25%    50%    75%  97.5%  Rhat n.eff
-## alpha[1]     46.093   3.082 40.129 44.070 46.085 48.142 52.087 1.002  2000
-## alpha[2]     41.362   1.035 39.439 40.690 41.343 42.019 43.524 1.001  3000
-## alpha[3]     45.973   1.004 44.050 45.292 45.952 46.633 47.981 1.001  3000
-## alpha[4]     54.372   1.044 52.304 53.683 54.369 55.057 56.442 1.001  3000
-## alpha[5]     58.898   1.013 56.853 58.239 58.882 59.572 60.996 1.001  3000
-## grand.sigma  11.478   7.438  4.671  7.101  9.394 12.921 33.126 1.013   330
-## group.sigma   3.232   0.404  2.571  2.944  3.187  3.464  4.155 1.003   720
+## alpha[1]     56.400   3.079 50.306 54.328 56.338 58.493 62.358 1.001  3000
+## alpha[2]     41.431   1.030 39.429 40.717 41.430 42.123 43.450 1.001  2300
+## alpha[3]     45.973   1.012 44.018 45.286 45.983 46.632 47.965 1.001  3000
+## alpha[4]     54.418   1.031 52.340 53.731 54.422 55.118 56.331 1.001  3000
+## alpha[5]     58.939   1.018 56.909 58.267 58.956 59.633 60.862 1.001  3000
+## grand.sigma  12.184   8.254  4.842  7.489  9.947 13.896 34.483 1.014   730
+## group.sigma   3.215   0.393  2.556  2.928  3.182  3.463  4.061 1.002  1900
 ## 
 ## For each parameter, n.eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor (at convergence, Rhat=1).
