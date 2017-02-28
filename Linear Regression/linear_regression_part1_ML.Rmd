@@ -1,5 +1,5 @@
 ---
-title: "Linear regression, **part 1**: glm, manual ML optimization, and `optim`"
+title: "Linear regression, **part 1**: GLM, manual ML optimization, and `optim`"
 author: "Petr Keil"
 date: "March 2017"
 output:

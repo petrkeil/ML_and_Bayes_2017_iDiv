@@ -1,16 +1,6 @@
----
-title: "ANOVA -- **part 2**: Fixed and random effects in JAGS"
-author: "Petr Keil"
-date: "March 2017"
-output:
-  html_document:
-    highlight: pygments
-    keep_md: yes
-    number_sections: yes
-    theme: cerulean
-    toc: yes
-  pdf_document: default
----
+# ANOVA -- **part 2**: Fixed and random effects in JAGS
+Petr Keil  
+March 2017  
 
 ***
 
@@ -30,7 +20,8 @@ We will use modified data from the example from **Marc Kery's Introduction to Wi
 ***
 
 Loading the data from the web:
-```{r, tidy=FALSE}
+
+```r
   snakes <- read.csv("http://www.petrkeil.com/wp-content/uploads/2014/02/snakes.csv")
 
 # we will artificially delete 9 data points in the first population
@@ -39,8 +30,19 @@ Loading the data from the web:
   summary(snakes)
 ```
 
+```
+##    population      snout.vent   
+##  Min.   :1.000   Min.   :36.56  
+##  1st Qu.:2.000   1st Qu.:43.02  
+##  Median :3.000   Median :49.24  
+##  Mean   :3.439   Mean   :50.07  
+##  3rd Qu.:4.000   3rd Qu.:57.60  
+##  Max.   :5.000   Max.   :61.37
+```
+
 Plotting the data:
-```{r, fig.width=8, fig.height=5}
+
+```r
   par(mfrow=c(1,2))
   plot(snout.vent ~ population, data=snakes,
        ylab="Snout-vent length [cm]")
@@ -49,6 +51,8 @@ Plotting the data:
           xlab="population",
           col="grey")
 ```
+
+![](anova2_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
 
 ***
 
@@ -59,7 +63,8 @@ For a given snake $i$ in population $j$ **the model** can be written as:
 $y_{ij} \sim Normal(\alpha_j, \sigma)$
 
 Here is how we prepare the data:
-```{r, tidy=FALSE}
+
+```r
   snake.data <- list(y=snakes$snout.vent,
                      x=snakes$population,
                      N=nrow(snakes), 
@@ -68,13 +73,15 @@ Here is how we prepare the data:
 
 Loading the library that communicates with JAGS
 
-```{r, message=FALSE, warning=FALSE}
+
+```r
   library(R2jags)
 ```
 
 JAGS Model definition:
 
-```{r, tidy=FALSE}
+
+```r
 cat("
   model
   {
@@ -96,12 +103,12 @@ cat("
     delta12 <- alpha[1] - alpha[2]
   }
 ", file="fixed_anova.txt")
-
 ```
 
 And we will fit the model:
 
-```{r}
+
+```r
 model.fit.fix <- jags(data=snake.data, 
                         model.file="fixed_anova.txt",
                         parameters.to.save=c("alpha", "delta12"),
@@ -109,23 +116,67 @@ model.fit.fix <- jags(data=snake.data,
                         n.iter=2000,
                         n.burnin=1000,
                         DIC=FALSE)
+```
+
+```
+## module glm loaded
+```
+
+```
+## module dic loaded
+```
+
+```
+## Compiling model graph
+##    Resolving undeclared variables
+##    Allocating nodes
+## Graph information:
+##    Observed stochastic nodes: 41
+##    Unobserved stochastic nodes: 6
+##    Total graph size: 107
+## 
+## Initializing model
+```
+
+```r
 model.fit.fix
+```
+
+```
+## Inference for Bugs model at "fixed_anova.txt", fit using jags,
+##  3 chains, each with 2000 iterations (first 1000 discarded)
+##  n.sims = 3000 iterations saved
+##          mu.vect sd.vect   2.5%    25%    50%    75%  97.5%  Rhat n.eff
+## alpha[1]  45.174   3.309 38.581 42.954 45.214 47.412 51.522 1.001  3000
+## alpha[2]  41.223   1.021 39.200 40.551 41.223 41.913 43.216 1.001  3000
+## alpha[3]  45.881   1.018 43.833 45.214 45.883 46.541 47.885 1.001  3000
+## alpha[4]  54.388   1.015 52.390 53.756 54.395 55.025 56.413 1.001  3000
+## alpha[5]  58.979   1.039 56.808 58.322 58.991 59.659 61.013 1.001  3000
+## delta12    3.950   3.470 -2.916  1.650  3.940  6.300 10.676 1.001  3000
+## 
+## For each parameter, n.eff is a crude measure of effective sample size,
+## and Rhat is the potential scale reduction factor (at convergence, Rhat=1).
 ```
 
 Plotting parameter estimates with `mcmcplots`
 
-```{r}
+
+```r
 library(mcmcplots)
 
 caterplot(model.fit.fix, parms="alpha", horizontal=FALSE, reorder=FALSE)
 ```
 
+![](anova2_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
+
 Is there a difference between population 1 and 2?
 
-```{r}
 
+```r
 caterplot(model.fit.fix, parms="delta12", horizontal=FALSE, reorder=FALSE)
 ```
+
+![](anova2_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
 
 ***
 
@@ -146,12 +197,14 @@ In short, a **random effect means that the parameters itself come from (are outc
 The data stay the same as in the fixed-effect example above.
 
 Loading the library that communicates with JAGS
-```{r, message=FALSE, warning=FALSE}
+
+```r
   library(R2jags)
 ```
 
 JAGS Model definition:
-```{r, tidy=FALSE}
+
+```r
 cat("
   model
   {
@@ -181,7 +234,8 @@ cat("
 
 And we will fit the model:
 
-```{r}
+
+```r
 model.fit.rnd <- jags(data=snake.data, 
                model.file="random_anova.txt",
                parameters.to.save=c("alpha", "grand.sigma", "group.sigma"),
@@ -189,24 +243,64 @@ model.fit.rnd <- jags(data=snake.data,
                n.iter=2000,
                n.burnin=1000,
                DIC=FALSE)
+```
 
+```
+## Compiling model graph
+##    Resolving undeclared variables
+##    Allocating nodes
+## Graph information:
+##    Observed stochastic nodes: 41
+##    Unobserved stochastic nodes: 8
+##    Total graph size: 107
+## 
+## Initializing model
+```
+
+```r
 model.fit.rnd
+```
+
+```
+## Inference for Bugs model at "random_anova.txt", fit using jags,
+##  3 chains, each with 2000 iterations (first 1000 discarded)
+##  n.sims = 3000 iterations saved
+##             mu.vect sd.vect   2.5%    25%    50%    75%  97.5%  Rhat n.eff
+## alpha[1]     46.093   3.082 40.129 44.070 46.085 48.142 52.087 1.002  2000
+## alpha[2]     41.362   1.035 39.439 40.690 41.343 42.019 43.524 1.001  3000
+## alpha[3]     45.973   1.004 44.050 45.292 45.952 46.633 47.981 1.001  3000
+## alpha[4]     54.372   1.044 52.304 53.683 54.369 55.057 56.442 1.001  3000
+## alpha[5]     58.898   1.013 56.853 58.239 58.882 59.572 60.996 1.001  3000
+## grand.sigma  11.478   7.438  4.671  7.101  9.394 12.921 33.126 1.013   330
+## group.sigma   3.232   0.404  2.571  2.944  3.187  3.464  4.155 1.003   720
+## 
+## For each parameter, n.eff is a crude measure of effective sample size,
+## and Rhat is the potential scale reduction factor (at convergence, Rhat=1).
 ```
 
 Plotting parameter estimates with `mcmcplots`
 
-```{r}
+
+```r
 library(mcmcplots)
 
 caterplot(model.fit.rnd, parms="alpha", horizontal=FALSE, reorder=FALSE)
+```
+
+![](anova2_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
+
+```r
 caterplot(model.fit.rnd, parms=c("grand.sigma", "group.sigma"), horizontal=FALSE)
 ```
+
+![](anova2_files/figure-html/unnamed-chunk-12-2.png)<!-- -->
 
 
 # Plotting the posteriors from both models
 
 Let's extract the medians posterior distributions of the expected values of $\alpha_j$ and their 95% credible intervals:
-```{r}
+
+```r
   rnd.alphas <- model.fit.rnd$BUGSoutput$summary
   fix.alphas <- model.fit.fix$BUGSoutput$summary
   
@@ -223,6 +317,8 @@ Let's extract the medians posterior distributions of the expected values of $\al
   legend("bottomright", pch=c(19,19), col=c("blue","red"),
          legend=c("fixed effects","random effects"))
 ```
+
+![](anova2_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
 
 ***
 

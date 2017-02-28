@@ -14,4 +14,7 @@
     {
       y[i] ~ dnorm(alpha[x[i]], tau)
     }
+
+    # derived quantity
+    delta12 <- alpha[1] - alpha[2]
   }

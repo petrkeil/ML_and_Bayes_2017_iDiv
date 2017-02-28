@@ -1,12 +1,14 @@
 ---
-title: "ANOVA -- part 1"
+title: "ANOVA -- **part 1**: The data and fixed-effects model definition"
 author: "Petr Keil"
-date: "January 2016"
+date: "March 2017"
 output:
   html_document:
     highlight: pygments
+    keep_md: yes
     number_sections: yes
     theme: cerulean
+    toc: yes
   pdf_document: default
 ---
 
@@ -27,15 +29,22 @@ output:
   write.csv(snakes, file="snakes.csv", row.names=FALSE)
 ```
 
-The aim of this lesson is to (1) leave the participants to come up with their
-code for simple one-way ANOVA, and (2) to experiment with random effects ANOVA.
+***
+
+# Objective
+
+The aim of this lesson is to leave the participants to come up with their
+code for simple one-way ANOVA (part 1), and to experiment with random effects ANOVA (part 2).
+
+***
 
 # The Data
 
-We will use modified data from the example from **Marc Kery's Introduction to WinBUGS for Ecologists**, page 119 (Chapter 9 - ANOVA). The data describe snout-vent lengths in 5 populations of Smooth snake (*Coronella austriaca*) (Uzovka hladka in CZ).
+We will use modified data from the example from **Marc Kery's Introduction to WinBUGS for Ecologists**, page 119 (Chapter 9 - ANOVA). The data describe snout-vent lengths in 5 populations of Smooth snake (*Coronella austriaca*).
 
 ![](figure/snake.png)
 
+***
 
 Loading the data from the web:
 ```{r, tidy=FALSE}
@@ -58,20 +67,24 @@ Plotting the data:
           col="grey")
 ```
 
-# Fixed-effects ANOVA
+***
+
+# The model: Fixed-effects ANOVA
 
 For a given snake $i$ in population $j$ **the model** can be written as:
 
 $y_{ij} \sim Normal(\alpha_j, \sigma)$
 
-## Tasks for you:
+***
 
-* Try to write this model in the BUGS language and dump it into a file
+# Tasks for you:
+
+* Write this model in the BUGS language and dump it into a file
 using `cat`.
 
-* Try to prepare the data for this model in the `list` format.
+* Pepare the data for this model to the `list` format.
 
-* Try to fit the model and estimate posterior distributions of $\alpha_j$.
+* Fit the model and estimate posterior distributions of $\alpha_j$.
 
 * Is there a significant difference of mean snout-vent length between 
 populations 1 and 2?
