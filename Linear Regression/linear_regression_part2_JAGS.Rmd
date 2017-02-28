@@ -1,5 +1,5 @@
 ---
-title: "Linear regression in JAGS - Part 1"
+title: "Linear regression part 2: JAGS"
 author: "Petr Keil"
 date: "March 2017"
 output:
