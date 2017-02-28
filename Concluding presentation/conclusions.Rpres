@@ -1,13 +1,13 @@
 Bayesian Biostatistics - Conclusions
 ========================================================
-author: Petr Keil
-date: January 2016
+Petr Keil
 
-![](conclusions-figure/theorem.png)
+March 2017
 
-![](conclusions-figure/logo.jpg)
+![](Thomas_Bayes.png)
 
-You should now be able to use
+
+You may now be able to work with
 ========================================================
 - Likelihood, maximum likelihood, deviance.
 - The basic prob. distributions.
@@ -21,13 +21,14 @@ You should now be able to use
 Some advice
 ========================================================
 - ALWAYS start with simple models (and small data).
-- Make your models cool and complex only AFTER your simple models run.
+- Make your models complex only AFTER your simple models run.
 
 Some advice
 ========================================================
 Learn your probability distributions. The useful ones
 are: 
 * Normal, Poisson, Binomial, Uniform
+* Multivariate Normal, Wishart
 * Beta, Gamma, Exponential, Negative Binomial, Lognormal
 * Categoriacal, Multinomial, Double exponential
 * Truncated and censored distributions
@@ -47,11 +48,12 @@ Some advice
 5. You provide negative $\lambda$ to Poisson -> log link.
 6. Same with Bernoulli -> logit link.
 7. Standardize and center your variables, **especially for log link**.
+8. You may want to try a different package (STAN, INLA, OpenBUGS)
 
 And finally
 ========================================================
  - If you have a hammer, every problem turns out to be a nail.
- - Do not forget the biology for all the stats.
+ - Do not forget the story for all the stats.
 
  
 THANK YOU!
