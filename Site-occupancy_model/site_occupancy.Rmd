@@ -1,12 +1,14 @@
 ---
 title: "Site occupancy model with imperfect detectability"
 author: "Petr Keil (based on Marc Kéry's chapter)"
-date: "February 2015"
+date: "March 2017"
 output:
   html_document:
     highlight: pygments
+    keep_md: yes
     number_sections: yes
     theme: cerulean
+    toc: yes
   pdf_document: default
 ---
 
@@ -46,8 +48,16 @@ output:
 #  gentiana <- data.frame(humidity, y)
 ```
 
+***
+
+# Objective
+
 Here we will go through a simple hierarchical model of species occupancy that
-accounts for imperfect detectability of a species.
+accounts for imperfect detectability of a species. The main aims are (1) to show a variant of **binomial-family regression**, (2) to demonstrate
+hierarchical models with **observation and process components**, and (3) to introduce
+the concept of **latent variables**.
+
+***
 
 # The Data
 
@@ -69,7 +79,9 @@ head(gentiana)
 nrow(gentiana)
 ```
 
-## The "naive" analysis by GLM:
+***
+
+# "Naive" analysis by GLM
 
 This is the classical LOGISTIC REGRESSION for presence-absence data:
 ```{r, tidy=FALSE}
@@ -92,9 +104,11 @@ Plotting the data and the predictions of the two naive models:
          legend=c("model1","model2"))
 ```
 
+***
+
 # Bayesian model with imperfect detection
 
-**Model definition**
+## Model definition
 
 $z_i \sim Bernoulli(\psi_i)$
 
@@ -109,6 +123,9 @@ $p_{ij}=f(environment_{ij})$
 and that
 
 $\psi_i=f(environment_i)$
+
+
+## Fitting the model in JAGS
 
 Let's prepare the data for JAGS:
 ```{r}
@@ -126,10 +143,6 @@ Our favourite library:
 ```{r, message=FALSE, warning=FALSE}
   library(R2jags)
 ```
-
-Here is a little guide for specifying **priors for logistic regression**:
-
-![](figure/logit_prior.png)
 
 The model:
 ```{r, tidy=FALSE, message=FALSE, warning=FALSE}
@@ -183,6 +196,8 @@ probability of presence):
                     inits=inits, 
                     DIC=FALSE)
 ```
+
+## Plotting the results
 
 Let's plot data together with the expected value and its credible intervals:
 ```{r}
