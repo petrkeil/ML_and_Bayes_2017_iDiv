@@ -276,6 +276,11 @@ model.fit &lt;-<span class="st"> </span><span class="kw">run.jags</span>(<span c
 
 <span class="kw">caterplot</span>(model.fit)
 <span class="kw">denplot</span>(model.fit)</code></pre></div>
+<p>And you can try to get <strong>High Density Intervals</strong> for parameter estimates using library <code>HDInterval</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(HDInterval)
+
+?hdi
+<span class="kw">hdi</span>(model.fit, <span class="dt">credMass=</span><span class="fl">0.95</span>)</code></pre></div>
 <hr />
 </div>
 </div>

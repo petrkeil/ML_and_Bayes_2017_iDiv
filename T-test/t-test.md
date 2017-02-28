@@ -185,6 +185,17 @@ caterplot(model.fit)
 denplot(model.fit)
 ```
 
+And you can try to get **High Density Intervals** for parameter estimates using
+library `HDInterval`:
+
+
+```r
+library(HDInterval)
+
+?hdi
+hdi(model.fit, credMass=0.95)
+```
+
 ***
 
 # t-test: The 'conventional' solution in JAGS
