@@ -1,16 +1,23 @@
 ---
-title: "T-test"
+title: "Comparing means of two groups: Frequentist and Bayesian t-test"
 author: "Petr Keil"
-date: "January 2016"
+date: "March 2017"
 output:
   html_document:
     highlight: pygments
     number_sections: yes
     theme: cerulean
+    toc: yes
   pdf_document: default
 ---
 
-In this lesson we will implement a Bayesian version of the classical T-test. We will also explore some ways to **summarize the JAGS output**, and we will introduce the concept of **derived quantity**.
+***
+
+# Objective
+
+Here we will implement a Bayesian version of the classical T-test. We will also explore some ways to **summarize the JAGS output**, and we will introduce the concept of **derived quantity**.
+
+***
 
 # The data
 
@@ -34,22 +41,30 @@ We will use the example from **Marc Kery's Introduction to WinBUGS for Ecologist
 
 ![](figure/falcon.png)
 
-Let's load the data and have a look at the data:
+***
+
+Let's load the data:
 
 ```{r, tidy=FALSE, fig.width=4, fig.height=5, eval=FALSE}
-  falcon <- read.csv("http://www.petrkeil.com/wp-content/uploads/2014/02/falcon.csv")
-  summary(falcon)
-  boxplot(wingspan ~ male, data=falcon, 
-          names=c("Female", "Male"),
-          ylab="Wingspan [cm]",
-          col="grey")
+falcon <- read.csv("http://www.petrkeil.com/wp-content/uploads/2014/02/falcon.csv")
 ```
 
+And explore the data a bit:
 
-# The classical frequentist solution in R
+```{r, tidy=FALSE, fig.width=4, fig.height=5, eval=FALSE}
+summary(falcon)
+boxplot(wingspan ~ male, data=falcon, 
+        names=c("Female", "Male"),
+        ylab="Wingspan [cm]",
+        col="grey")
+```
+
+***
+
+# t-test: The classical frequentist solution in R
 
 We can use the classical two-sample ```t.test()```: 
-```{r}
+```{r, eval=FALSE}
 x <- falcon$wingspan[falcon$male==1]
 y <- falcon$wingspan[falcon$male==0]
 t.test(x, y)
@@ -67,8 +82,9 @@ glm1 <- glm(wingspan ~ male, data=falcon)
 summary(glm1)
 ```
 
+***
 
-# The didactic Bayesian solution
+# t-test: The 'didactic' solution in JAGS
 
 We assume the each males and females each have their own Normal distribution, from which the wingspans are drawn:
 
@@ -83,19 +99,21 @@ $\delta = \mu_f - \mu_m \neq 0$
 
 But we can actually ask even more directly: **What is the mean difference ($\delta$) between female and male wingspan?**
 
+***
+
 Here is how we prepare the data for JAGS:
 ```{r, tidy=FALSE}
-  y.male <- falcon$wingspan[falcon$male==1]
-  y.female <- falcon$wingspan[falcon$male==0]
-  falcon.data.1 <- list(y.f=y.female,
-                        N.f=60,
-                        y.m=y.male,
-                        N.m=40)
+y.male <- falcon$wingspan[falcon$male==1]
+y.female <- falcon$wingspan[falcon$male==0]
+falcon.data.1 <- list(y.f=y.female,
+                      N.f=60,
+                      y.m=y.male,
+                      N.m=40)
 ```
 
 Loading the necessary library:
 ```{r, message=FALSE, warning=FALSE}
-  library(R2jags)
+library(R2jags)
 ```
 
 Definition of the model:
@@ -104,9 +122,9 @@ cat("
 model
 {
   # priors
-    mu.f ~ dnorm(0, 0.001) # Note: tau = 1/variance
+    mu.f ~ dnorm(0, 0.001) 
     mu.m ~ dnorm(0, 0.001)
-    tau <- 1/(sigma*sigma)
+    tau <- 1/(sigma*sigma)   ## Note: tau = 'precision' = 1/variance
     sigma ~ dunif(0,100)
   
   # likelihood - Females
@@ -130,31 +148,67 @@ model
 ```
 
 The MCMC sampling done by ```jags()``` function:
-```{r, tidy=FALSE, message=FALSE, warning=FALSE, fig.height=10}
+```{r, tidy=FALSE, message=FALSE, warning=FALSE, fig.height=10, eval=FALSE}
 model.fit <- jags(data=falcon.data.1, 
-               model.file="t-test.bug",
-               parameters.to.save=c("mu.f", "mu.m", "sigma", "delta"),
-               n.chains=3,
-               n.iter=2000,
-               n.burnin=1000,
-               DIC=FALSE)
+                  model.file="t-test.bug",
+                  parameters.to.save=c("mu.f", "mu.m", "sigma", "delta"),
+                  n.chains=3,
+                  n.iter=2000,
+                  n.burnin=1000,
+                  DIC=FALSE)
 ```
 
 And we can explore the posterior distributions:
 
 ```{r, eval=FALSE}
-plot(as.mcmc(model.fit))
 model.fit
+plot(model.fit)
+summary(model.fit)
+summary(as.mcmc(model.fit))
+plot(as.mcmc(model.fit))
 ```
 
+## Alternative ways to run and plot the model (optinal)
 
-# The conventional Bayesian solution
+You can also explore an alternative call with ```run.jags()``` function from package ```runjags```.
+
+```{r, tidy=FALSE, message=FALSE, warning=FALSE, fig.height=10, eval=FALSE}
+library(runjags)
+
+model.fit <- run.jags(data=falcon.data.1, 
+                      model="t-test.bug",
+                      monitor=c("mu.f", "mu.m", "sigma", "delta"),
+                      n.chains=3,
+                      sample=1000,
+                      burnin=1000)
+```
+
+```{r, tidy=FALSE, message=FALSE, warning=FALSE, fig.height=10, eval=FALSE}
+plot(model.fit, plot.type="histogram")
+```
+
+You can also try a fancy plotting using ```mcmcplots``` package:
+
+```{r, tidy=FALSE, message=FALSE, warning=FALSE, fig.height=10, eval=FALSE}
+library(mcmcplots)
+
+caterplot(model.fit)
+denplot(model.fit)
+```
+
+***
+
+# t-test: The 'conventional' solution in JAGS
 
 Alternativelly, you can also specify the model in a more conventional way:
 
 $\mu_i = \mu_f + \delta \times male_i$
 
 $y_i \sim Normal(\mu_i, \sigma)$
+
+**Tip**: For different ways to write the same model see Gelman & Hill (2007) *Data analysis using regression and multilevel/hierarchical models*, **page 262**.
+
+***
 
 Preparing the data for JAGS is somewhat different than above:
 ```{r, tidy=FALSE}
@@ -190,21 +244,24 @@ model
 ```
 
 The MCMC sampling done by ```jags()``` function:
-```{r, tidy=FALSE, message=FALSE, warning=FALSE, fig.height=10}
+```{r, tidy=FALSE, message=FALSE, warning=FALSE, fig.height=10, eval=FALSE}
 model.fit <- jags(data=falcon.data.2, 
-               model.file="t-test2.bug",
-               parameters.to.save=c("mu.f", "mu.m", "sigma", "delta"),
-               n.chains=3,
-               n.iter=2000,
-               n.burnin=1000,
-               DIC=FALSE)
+                  model.file="t-test2.bug",
+                  parameters.to.save=c("mu.f", "mu.m", "sigma", "delta"),
+                  n.chains=3,
+                  n.iter=2000,
+                  n.burnin=1000,
+                  DIC=FALSE)
 ```
 
 And we can explore the posterior distributions:
 
 ```{r, eval=FALSE}
-plot(as.mcmc(model.fit))
 model.fit
+plot(model.fit)
+summary(model.fit)
+summary(as.mcmc(model.fit))
+plot(as.mcmc(model.fit))
 ```
 
 
