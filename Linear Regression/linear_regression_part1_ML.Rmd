@@ -1,5 +1,5 @@
 ---
-title: "Linear regression through ML"
+title: "Linear regression: manual, maximum likelihood and using glm"
 author: "Petr Keil"
 date: "February 24, 2017"
 output: html_document
