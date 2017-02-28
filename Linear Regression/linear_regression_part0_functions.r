@@ -1,7 +1,3 @@
-xy <- read.csv("https://raw.githubusercontent.com/petrkeil/ML_and_Bayes_2017_iDiv/master/Manual_ML_regression/xy_data.csv")
-
-xy
-
 require(manipulate)
 
 regr.plot <- function(xy, a, b, sigma)
