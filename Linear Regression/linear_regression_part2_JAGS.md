@@ -1,16 +1,6 @@
----
-title: "Linear regression, **part 2**: Bayesian version in JAGS, credible and prediction intervals"
-author: "Petr Keil"
-date: "March 2017"
-output:
-  html_document:
-    highlight: pygments
-    keep_md: yes
-    number_sections: yes
-    theme: cerulean
-    toc: yes
-  pdf_document: default
----
+# Linear regression, **part 2**: Bayesian version in JAGS, credible and prediction intervals
+Petr Keil  
+March 2017  
 
 ***
 
@@ -24,34 +14,61 @@ In **Part 1** the data and the model are introduced. Participants then try to im
 
 # The data
 
-```{r}
+
+```r
   catepil <- read.csv("https://rawgit.com/petrkeil/ML_and_Bayes_2017_iDiv/master/Linear%20Regression/catepilar_data.csv")
   catepil
+```
+
+```
+##   growth tannin
+## 1     12      0
+## 2     10      1
+## 3      8      2
+## 4     11      3
+## 5      6      4
+## 6      7      5
+## 7      2      6
+## 8      3      7
+## 9      3      8
 ```
 
 # Preparing the data for JAGS
 
 We will put all of our data in a list object
 
-```{r}
+
+```r
 linreg.data <- list(N=9,
                     tannin=catepil$tannin,
                     growth=catepil$growth)
 linreg.data
+```
 
+```
+## $N
+## [1] 9
+## 
+## $tannin
+## [1] 0 1 2 3 4 5 6 7 8
+## 
+## $growth
+## [1] 12 10  8 11  6  7  2  3  3
 ```
 
 # Fitting the model by MCMC in JAGS
 
 The R library that connects R with JAGS:
 
-```{r, fig.width=4, fig.height=4, tidy=FALSE, message=FALSE, warning=FALSE}
+
+```r
 library(R2jags)
 ```
 
 This is the JAGS definition of the model:
 
-```{r, tidy=FALSE, message=FALSE, warning=FALSE}
+
+```r
 cat("
   model
   {
@@ -74,7 +91,8 @@ cat("
 
 The MCMC sampling done by ```jags``` function:
 
-```{r, tidy=FALSE, message=FALSE, warning=FALSE}
+
+```r
 model.fit <- jags(data=linreg.data, 
                model.file="linreg_model.bug",
                parameters.to.save=c("a", "b", "sigma"),
@@ -83,9 +101,22 @@ model.fit <- jags(data=linreg.data,
                n.burnin=1000)
 ```
 
+```
+## Compiling model graph
+##    Resolving undeclared variables
+##    Allocating nodes
+## Graph information:
+##    Observed stochastic nodes: 9
+##    Unobserved stochastic nodes: 3
+##    Total graph size: 50
+## 
+## Initializing model
+```
+
 And we can examine the results:
 
-```{r, fig.width=8, fig.height=12, eval=FALSE}
+
+```r
 model.fit
 plot(as.mcmc(model.fit))
 ```
@@ -94,7 +125,8 @@ plot(as.mcmc(model.fit))
 
 **Beware:** Here we will use library ```rjags``` that gives more control over the MCMC (as opposed to ```R2jags```):
 
-```{r, fig.width=4, fig.height=4, tidy=FALSE, message=FALSE, warning=FALSE}
+
+```r
 library(rjags)
 
 cat("
@@ -125,21 +157,36 @@ cat("
 
 Initializing the model:
 
-```{r, fig.width=4, fig.height=4, tidy=FALSE, message=FALSE, warning=FALSE}
+
+```r
 jm <- jags.model(data=linreg.data, 
                  file="linreg_model.bug",
                  n.chains = 3, n.adapt=1000)
 ```
 
+```
+## Compiling model graph
+##    Resolving undeclared variables
+##    Allocating nodes
+## Graph information:
+##    Observed stochastic nodes: 9
+##    Unobserved stochastic nodes: 12
+##    Total graph size: 59
+## 
+## Initializing model
+```
+
 The burn-in phase:
 
-```{r}
+
+```r
 update(jm, n.iter=1000)
 ```
 
 We will monitor the predicted values:
 
-```{r}
+
+```r
 params <- c("prediction")
 samps <- coda.samples(jm, params, n.iter=5000)     
 predictions <- summary(samps)$quantiles
@@ -147,7 +194,8 @@ predictions <- summary(samps)$quantiles
 
 And here we will monitor the expected values:
 
-```{r}
+
+```r
 params <- c("mu")
 samps <- coda.samples(jm, params, n.iter=5000)     
 mu <- summary(samps)$quantiles
@@ -155,7 +203,8 @@ mu <- summary(samps)$quantiles
 
 Plotting the predictions:
 
-```{r, fig.width=5, fig.height=5}
+
+```r
 plot(c(0,8), c(0,18), type="n", xlab="tannin", ylab="growth")
 points(catepil$tannin, catepil$growth, pch=19)
 lines(catepil$tannin, mu[,"50%"], col="red")
@@ -164,6 +213,8 @@ lines(catepil$tannin, mu[,"97.5%"], col="red", lty=2)
 lines(catepil$tannin, predictions[,"2.5%"], lty=3)
 lines(catepil$tannin, predictions[,"97.5%"], lty=3)
 ```
+
+![](linear_regression_part2_JAGS_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
 
 The figure shows the **median expected value** (solid red), **95% credible intervals of the expected value** (dashed red) and **95% prediction intervals** (dotted). 
 
