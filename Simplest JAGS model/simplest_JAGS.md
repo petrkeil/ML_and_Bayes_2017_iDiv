@@ -41,7 +41,7 @@ $N
 [1] 16
 ```
 
-Recall Bayes rule and the JAGS syntax
+Bayes rule and the JAGS syntax
 ========================================================
  
 $$p(\theta|y) = \frac {p(\theta) \times p(y|\theta)}{p(y)}$$
@@ -169,17 +169,17 @@ Inference for Bugs model at "my_model.txt", fit using jags,
  3 chains, each with 2000 iterations (first 1000 discarded)
  n.sims = 3000 iterations saved
          mu.vect sd.vect    2.5%     25%     50%     75%   97.5%  Rhat
-lambda    30.826   1.365  28.133  29.912  30.841  31.716  33.529 1.001
-deviance 165.844   1.393 164.877 164.962 165.296 166.121 169.864 1.001
+lambda    30.772   1.347  28.265  29.822  30.734  31.679  33.451 1.001
+deviance 165.818   1.301 164.877 164.969 165.327 166.172 169.363 1.012
          n.eff
 lambda    3000
-deviance  2300
+deviance   650
 
 For each parameter, n.eff is a crude measure of effective sample size,
 and Rhat is the potential scale reduction factor (at convergence, Rhat=1).
 
 DIC info (using the rule, pD = var(deviance)/2)
-pD = 1.0 and DIC = 166.8
+pD = 0.8 and DIC = 166.7
 DIC is an estimate of expected predictive error (lower deviance is better).
 ```
 
