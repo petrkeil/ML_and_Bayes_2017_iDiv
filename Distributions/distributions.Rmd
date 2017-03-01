@@ -1,7 +1,7 @@
 ---
 title: "Other useful basic distributions"
 author: "Petr Keil"
-date: "January, 2016"
+date: "March 2017"
 output: 
   html_document: 
     highlight: tango
